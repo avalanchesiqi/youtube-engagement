@@ -4,41 +4,49 @@
   An integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/avalanchesiqi/youtube-insight).
 
 ## Data
-  The data is hosted on [Dataverse](https://dataverse.harvard.edu/)?
+  The data is hosted on [Google drive](https://drive.google.com/drive/folders/1xCEJU5P185tDJIk-XNV3cckfFAW3W1Px?usp=sharing).
   
   ```
   data
   │   README.md
-  └───tweeted_videos
+  └───tweeted_videos.tar.bz2
   │   │   autos.json
-  │   │   film.json
-  │   │   music.json
-  │   │   pets.json
-  │   │   sports.json
-  │   │   travel.json
-  │   │   gaming.json
-  │   │   people.json
   │   │   comedy.json
-  │   │   entertainment.json
-  │   │   news.json
-  │   │   howto.json
   │   │   education.json
-  │   │   science.json
-  │   │   nonprofits.json
+  │   │   entertainment.json
+  │   │   film.json
+  │   │   gaming.json
+  │   │   howto.json
   │   │   movies.json
+  │   │   music.json
+  │   │   news.json
+  │   │   nonprofits.json
+  │   │   people.json
+  │   │   pets.json
+  │   │   science.json
   │   │   shows.json
+  │   │   sports.json
   |   |   trailers.json
-  └───quality_videos
-      │   vevo.json
+  │   │   travel.json
+  └───quality_videos.tar.bz2
       │   billboard16.json
       |   top_news.json
+      │   vevo.json
   ```
 
 ### File Description
-All files are in python's [pickle](https://docs.python.org/2/library/pickle.html) format.
+All files are in `json` format and compressed in `tar.bz2`.
+
+Dataset | Uncompressed | Ccompressed | #Videos | #Channels
+--- | --- | --- | --- | ---
+Tweeted videos | 26GB | 4.6GB | 5,331,204 | 1,257,412
+Quality videos | 1.9GB | 359MB | 96,397 | 8,823
+VEVO videos | 1.4GB | - | 67,649 | 8,685
+Billboard16 videos | 1.1MB | - | 63 | 47
+Top news videos | 469MB | - | 28,685 | 91
 
 ## Data Fields
-An example video is shown below.
+Each line is a YouTube video, an example is shown below.
 ```json
 {
    "id": "pFMj8KL8nJA",
@@ -77,7 +85,7 @@ An example video is shown below.
 ```
 
 ### detectLang field
-`detectLang` is the result from [langdetect 1.0.7](https://pypi.python.org/pypi/langdetect?).
+`detectLang` is the result from [langdetect 1.0.7](https://pypi.python.org/pypi/langdetect?), 'NA' if no result returns.
 
 ### topicDetails field
-`topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dumps](https://developers.google.com/freebase/).
+`topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dump](https://developers.google.com/freebase/).

@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Scripts to plot Figure 3, engagement map of watch time and watch percentage
-# Fields:
-# 'id', 'publish', 'duration', 'definition', 'category', 'detect_lang', 'channel', 'topics',
-# 'view@30', 'watch@30', 'wp@30', 'days', 'daily_view', 'daily_watch'
+""" Scripts to plot Figure 3, engagement maps of watch time and watch percentage
 
-Input: ../../production_data/new_tweeted_dataset_norm/
 Usage: python plot_fig3_emaps.py
-Time: ~10M
+Time: ~6M
 """
 
 from __future__ import print_function, division
@@ -25,7 +21,7 @@ from matplotlib.ticker import FuncFormatter
 
 
 def exponent(x, pos):
-    'The two args are the value and tick position'
+    """ The two args are the value and tick position """
     return '%1.0f' % (10 ** x)
 
 
@@ -33,8 +29,7 @@ def get_engagement_stats_from_file(filepath):
     with open(filepath, 'r') as fin:
         fin.readline()
         for line in fin:
-            _, _, duration, dump = line.rstrip().split('\t', 3)
-            _, _, _, _, _, view, _, wp30, _ = dump.split('\t', 8)
+            _, _, duration, _, _, _, _, _, view, _, wp30, _ = line.split('\t', 11)
             duration = int(duration)
             wp30 = float(wp30)
             duration_engagement_tuple.append((duration, wp30, np.log10(duration * wp30)))
@@ -62,7 +57,6 @@ def plot_contour(x_axis_value, color='r', fsize=14, title=False):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    # setting parameters
     print('>>> Start to extract engagement map and plot...')
     start_time = time.time()
 
@@ -71,13 +65,12 @@ if __name__ == '__main__':
     duration_cnt_dict = defaultdict(int)
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
-    input_loc = '../../production_data/new_tweeted_dataset'
-
+    input_loc = '../data/tweeted_videos'
     if os.path.isdir(input_loc):
         for subdir, _, files in os.walk(input_loc):
             for f in files:
                 get_engagement_stats_from_file(os.path.join(subdir, f))
-                print('>>> Loading data: {0} done!'.format(f))
+                print('>>> Loading data: {0} done!'.format(os.path.join(subdir, f)))
     else:
         get_engagement_stats_from_file(input_loc)
     print('>>> Finish loading all data!')
@@ -171,7 +164,7 @@ if __name__ == '__main__':
         if plot_examples:
             # d_8ao3o5ohU, Black Belt Kid Vs. White Belt Adults, 6309812
             quality_short = (287, 0.7022605, '$\mathregular{V_{1}}$: d_8ao3o5ohU')
-            # akuyBBIbOso, Learn Colors with Squishy Mesh Balls for Toddlers Kids and Children - Surprise Eggs for Babies, 6449735
+            # akuyBBIbOso, Learn Colors with Squishy Mesh Balls for Toddlers Kids and Children, 6449735
             junk_short = (306, 0.2066883, '$\mathregular{V_{2}}$: akuyBBIbOso')
             # WH7llf2vaKQ, Joe Rogan Experience - Fight Companion - August 6, 2016, 490585
             quality_long = (13779, 0.1900219, '$\mathregular{V_{3}}$: WH7llf2vaKQ')
@@ -217,7 +210,7 @@ if __name__ == '__main__':
         ax1.set_xlim([1, 5])
         ax1.set_ylim([1, 5])
         ax1.set_xlabel('video duration (sec) ' + r'$D$', fontsize=24)
-        ax1.set_ylabel('average watch time (sec) ' + r'$\omega_{30}$', fontsize=24)
+        ax1.set_ylabel('average watch time (sec) ' + r'$\bar \omega_{30}$', fontsize=24)
         ax1.tick_params(axis='both', which='major', labelsize=20)
         for label in ax1.get_yticklabels()[1::2]:
             label.set_visible(False)
@@ -249,7 +242,7 @@ if __name__ == '__main__':
         if plot_examples:
             # d_8ao3o5ohU, Black Belt Kid Vs. White Belt Adults, 6309812
             quality_short = (287, 0.7022605 * 287, '$\mathregular{V_{1}}$: d_8ao3o5ohU')
-            # akuyBBIbOso, Learn Colors with Squishy Mesh Balls for Toddlers Kids and Children - Surprise Eggs for Babies, 6449735
+            # akuyBBIbOso, Learn Colors with Squishy Mesh Balls for Toddlers Kids and Children, 6449735
             junk_short = (306, 0.2066883 * 306, '$\mathregular{V_{2}}$: akuyBBIbOso')
             # WH7llf2vaKQ, Joe Rogan Experience - Fight Companion - August 6, 2016, 490585
             quality_long = (13779, 0.1900219 * 13779, '$\mathregular{V_{3}}$: WH7llf2vaKQ')
