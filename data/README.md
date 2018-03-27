@@ -1,7 +1,7 @@
 # Dataset on YouTube engagement study
 
 ## Sofware
-  An integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/avalanchesiqi/youtube-insight).
+  An integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
   The data is hosted on [Google drive](https://drive.google.com/drive/folders/1xCEJU5P185tDJIk-XNV3cckfFAW3W1Px?usp=sharing).
@@ -36,8 +36,9 @@
 
 ### File Description
 All files are in `json` format and compressed in `tar.bz2`.
+Uncompress by command `find -name "*_videos.tar.bz2" -exec tar -jxvf {} \;`
 
-Dataset | Uncompressed | Ccompressed | #Videos | #Channels
+Dataset | Uncompressed | Compressed | #Videos | #Channels
 --- | --- | --- | --- | ---
 Tweeted videos | 26GB | 4.6GB | 5,331,204 | 1,257,412
 Quality videos | 1.9GB | 359MB | 96,397 | 8,823

@@ -1,9 +1,7 @@
 """Converter for watch percentage and relative engagement """
 
-from __future__ import division
-import os
+import os, pickle
 import numpy as np
-import cPickle as pickle
 
 
 def read_as_int_array(content, truncated=None, delimiter=None):
@@ -15,9 +13,9 @@ def read_as_int_array(content, truncated=None, delimiter=None):
     :return: a numpy int array
     """
     if truncated is None:
-        return np.array(map(int, content.split(delimiter)), dtype=np.uint32)
+        return np.array(list(map(int, content.split(delimiter))), dtype=np.uint32)
     else:
-        return np.array(map(int, content.split(delimiter)[:truncated]), dtype=np.uint32)
+        return np.array(list(map(int, content.split(delimiter)[:truncated])), dtype=np.uint32)
 
 
 def read_as_float_array(content, truncated=None, delimiter=None):
@@ -29,9 +27,9 @@ def read_as_float_array(content, truncated=None, delimiter=None):
     :return: a numpy float array
     """
     if truncated is None:
-        return np.array(map(float, content.split(delimiter)), dtype=np.float64)
+        return np.array(list(map(float, content.split(delimiter))), dtype=np.float64)
     else:
-        return np.array(map(float, content.split(delimiter)[:truncated]), dtype=np.float64)
+        return np.array(list(map(float, content.split(delimiter)[:truncated])), dtype=np.float64)
 
 
 def strify(iterable_struct, delimiter=','):
