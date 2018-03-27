@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Scripts to plot Figure 2, Spearman rank correlation for top 1000 videos in terms of total views and watch time.
+""" Script to plot Figure 2, Spearman rank correlation for top 1000 videos in terms of total views and watch time.
 
 Usage: python plot_fig2_disagreement.py
 Time: ~2M
 """
 
-from __future__ import division, print_function
 import os, operator, time, datetime
 from scipy import stats
 import matplotlib.pyplot as plt
-plt.rc('text', usetex=True)
-plt.rc('font', family='sans-serif')
 
 
 def plot_spearman(ax, view_rank_dict, watch_rank_dict, color, linestyle, label):
@@ -72,8 +69,8 @@ if __name__ == '__main__':
     news_watch_rank_dict = {}
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
-    input_doc = '../data/tweeted_videos'
-    for subdir, _, files in os.walk(input_doc):
+    input_loc = '../data/formatted_tweeted_videos'
+    for subdir, _, files in os.walk(input_loc):
         for f in files:
             with open(os.path.join(subdir, f), 'r') as fin:
                 fin.readline()
@@ -84,10 +81,10 @@ if __name__ == '__main__':
 
                     total_view_rank_dict[vid] = view30
                     total_watch_rank_dict[vid] = watch30
-                    if f.startswith('10'):
+                    if f.startswith('music'):
                         music_view_rank_dict[vid] = view30
                         music_watch_rank_dict[vid] = watch30
-                    if f.startswith('25'):
+                    if f.startswith('news'):
                         news_view_rank_dict[vid] = view30
                         news_watch_rank_dict[vid] = watch30
 
@@ -98,7 +95,7 @@ if __name__ == '__main__':
     ax3 = plt.subplot2grid((2, 3), (1, 2))
 
     # ax1, spearman correlation with various top value
-    plot_spearman(ax1, total_view_rank_dict, total_watch_rank_dict, color='k', linestyle='-', label=r'\textsc{Tweeted videos}')
+    plot_spearman(ax1, total_view_rank_dict, total_watch_rank_dict, color='k', linestyle='-', label='TWEETED VIDEOS')
     plot_spearman(ax1, music_view_rank_dict, music_watch_rank_dict, color='r', linestyle='--', label='Music')
     plot_spearman(ax1, news_view_rank_dict, news_watch_rank_dict, color='b', linestyle='--', label='News')
     ax1.plot([num_display_top, num_display_top], [-1, 1], 'k:')

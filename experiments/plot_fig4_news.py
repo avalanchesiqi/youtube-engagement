@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Scripts to plot Figure 4, compare quality news and random news engagement map."""
+""" Script to plot Figure 4, compare quality news and random news engagement map. """
 
-from __future__ import print_function, division
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+import os
 import numpy as np
 from collections import defaultdict
 from scipy.stats import gaussian_kde
@@ -49,12 +47,11 @@ def loading_data(input_loc, bin_number, min_bin):
         for subdir, _, files in os.walk(input_loc):
             for f in files:
                 # get tweeted music videos
-                if f.startswith('25'):
+                if f.startswith('news'):
                     get_duration_wp_from_file(os.path.join(subdir, f), duration_wp_tuple, duration_stats_dict)
                     print('>>> Loading data: {0} done!'.format(f))
     else:
         get_duration_wp_from_file(input_loc, duration_wp_tuple, duration_stats_dict)
-    print('>>> Finish loading all data!')
 
     # sort by duration in ascent order
     sorted_duration_wp_tuple = sorted(duration_wp_tuple, key=lambda x: x[0])
@@ -80,11 +77,11 @@ def loading_data(input_loc, bin_number, min_bin):
     x_axis, bin_matrix = remove_bad_bins(x_axis, bin_matrix, min_bin)
 
     # sanity check
-    to_check = True
+    to_check = False
     if to_check:
         print('videos in each bin')
-        # for i in xrange(len(x_axis)):
-        #     print('duration split point: {0}; number of videos in bin: {1}'.format(x_axis[i], len(bin_matrix[i])))
+        for i in range(len(x_axis)):
+            print('duration split point: {0}; number of videos in bin: {1}'.format(x_axis[i], len(bin_matrix[i])))
         print('num of bins: {0}'.format(len(x_axis)))
     return x_axis, bin_matrix, duration_wp_tuple
 
@@ -98,12 +95,12 @@ if __name__ == '__main__':
 
     plot_tweeted = True
     if plot_tweeted:
-        input_loc = '../../production_data/new_tweeted_dataset'
+        input_loc = '../data/formatted_tweeted_videos'
         tweeted_x_axis, tweeted_bin_matrix, tweeted_tuple = loading_data(input_loc, bin_number=150, min_bin=50)
 
     plot_quality = True
     if plot_quality:
-        input_loc = '../../production_data/quality_dataset/top_news.txt'
+        input_loc = '../data/formatted_quality_videos/top_news.txt'
         quality_x_axis, quality_bin_matrix, quality_tuple = loading_data(input_loc, bin_number=50, min_bin=25)
 
     # plot wp~dur distribution

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Scripts to plot Figure 1, scatter plot for videos from three YouTube channels.
+""" Script to plot Figure 1, scatter plot for videos from three YouTube channels.
 UC0aCRHZm9xOCvFoxWAmgS2w: Blunt Force Truth
 UCp0hYYBW6IMayGgR-WeoCvQ: TheEllenShow
 UCHn2-DNS5t4tEXqBK5bHmTQ: KEEMI
@@ -10,7 +10,6 @@ Usage: python plot_fig1_teaser.py
 Time: ~2M
 """
 
-from __future__ import print_function
 import os, time, datetime
 from collections import defaultdict
 import matplotlib.pyplot as plt
@@ -25,11 +24,11 @@ if __name__ == '__main__':
     labels = ['Blunt Force Truth', 'TheEllenShow', 'KEEMI']
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
-    input_doc = '../data/tweeted_videos'
+    input_loc = '../data/formatted_tweeted_videos'
     channel_view_dict = defaultdict(list)
     channel_wp_dict = defaultdict(list)
 
-    for subdir, _, files in os.walk(input_doc):
+    for subdir, _, files in os.walk(input_loc):
         for f in files:
             with open(os.path.join(subdir, f), 'r') as fin:
                 fin.readline()

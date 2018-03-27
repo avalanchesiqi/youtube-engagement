@@ -7,7 +7,7 @@ from scratch, s/he may need to apply additional filters and handle corrupted dat
 
 Usage: python construct_formatted_data.py -i input_doc -o output_doc
 Example: python construct_formatted_dataset.py -i ../data/tweeted_videos -o ../data/formatted_tweeted_videos
-Time: ~20H20M
+Time: ~1H
 Example: python construct_formatted_dataset.py -i ../data/quality_videos -o ../data/formatted_quality_videos
 Time: ~2M
 """

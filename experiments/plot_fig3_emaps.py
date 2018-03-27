@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Scripts to plot Figure 3, engagement maps of watch time and watch percentage
+""" Script to plot Figure 3, engagement maps of watch time and watch percentage
 
 Usage: python plot_fig3_emaps.py
-Time: ~6M
+Time: ~12M
 """
 
-from __future__ import print_function, division
-import os, sys, time, datetime
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+import os, time, datetime, pickle
 import numpy as np
 from collections import defaultdict
 from scipy.stats import gaussian_kde
@@ -41,7 +39,7 @@ def plot_contour(x_axis_value, color='r', fsize=14, title=False):
     target_bin = wp_bin_matrix[np.sum(x_axis < x_axis_value)]
     ax1.plot([x_axis_value, x_axis_value], [np.percentile(target_bin, 0.5), np.percentile(target_bin, 99.5)], c=color,
              zorder=20)
-    for t in xrange(10, 95, 10):
+    for t in range(10, 95, 10):
         ax1.plot([x_axis_value - 0.04, x_axis_value + 0.04],
                  [np.percentile(target_bin, t), np.percentile(target_bin, t)], c=color, zorder=20)
         if t % 20 == 0:
@@ -65,7 +63,7 @@ if __name__ == '__main__':
     duration_cnt_dict = defaultdict(int)
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
-    input_loc = '../data/tweeted_videos'
+    input_loc = '../data/formatted_tweeted_videos'
     if os.path.isdir(input_loc):
         for subdir, _, files in os.walk(input_loc):
             for f in files:
@@ -182,6 +180,12 @@ if __name__ == '__main__':
         plt.subplots_adjust(left=0.13, bottom=0.08, right=0.99, top=0.96, wspace=0.03, hspace=0.03)
         plt.savefig('../images/fig3_emap_wp.pdf', bbox_inches='tight')
         plt.show()
+
+    # == == == == == == == == Part 5: Store engagement map offline == == == == == == == == #
+    engagement_map = {'duration': duration_splits}
+    for i in range(len(duration_splits) + 1):
+        engagement_map[i] = [np.percentile(wp_bin_matrix[i], j / 10) for j in range(1000)]
+    pickle.dump(engagement_map, open('../data/engagement_map.p', 'wb'))
 
     # == == == == == == == == Part 6: Plot duration watch time map == == == == == == == == #
     sea_green = '#2e8b57'
