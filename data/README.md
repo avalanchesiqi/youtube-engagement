@@ -10,6 +10,7 @@
   data
   │   README.md
   └───tweeted_videos.tar.bz2
+  │   │   activism.json
   │   │   autos.json
   │   │   comedy.json
   │   │   education.json
@@ -20,7 +21,6 @@
   │   │   movies.json
   │   │   music.json
   │   │   news.json
-  │   │   nonprofits.json
   │   │   people.json
   │   │   pets.json
   │   │   science.json
