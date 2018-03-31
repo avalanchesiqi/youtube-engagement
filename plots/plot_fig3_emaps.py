@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Script to plot Figure 3, engagement maps of watch time and watch percentage
+""" Script to plot Figure 3, engagement maps of watch time and watch percentage.
 
 Usage: python plot_fig3_emaps.py
-Time: ~12M
+Time: ~8M
 """
 
-import os, time, datetime, pickle
+import os, time, datetime
 import numpy as np
 from collections import defaultdict
 from scipy.stats import gaussian_kde
@@ -56,7 +56,7 @@ def plot_contour(x_axis_value, color='r', fsize=14, title=False):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    print('>>> Start to extract engagement map and plot...')
+    print('>>> Start to plot engagement map of TWEETED VIDEOS dataset...')
     start_time = time.time()
 
     bin_number = 1000
@@ -68,9 +68,10 @@ if __name__ == '__main__':
     if os.path.isdir(input_loc):
         for subdir, _, files in os.walk(input_loc):
             for f in files:
+                print('>>> Start to load data: {0}...'.format(os.path.join(subdir, f)))
                 get_engagement_stats_from_file(os.path.join(subdir, f))
-                print('>>> Loading data: {0} done!'.format(os.path.join(subdir, f)))
     else:
+        print('>>> Start to load data: {0}...'.format(input_loc))
         get_engagement_stats_from_file(input_loc)
     print('>>> Finish loading all data!')
 
@@ -182,13 +183,7 @@ if __name__ == '__main__':
         plt.savefig('../images/fig3_emap_wp.pdf', bbox_inches='tight')
         plt.show()
 
-    # == == == == == == == == Part 5: Store engagement map offline == == == == == == == == #
-    engagement_map = {'duration': duration_splits}
-    for i in range(len(duration_splits) + 1):
-        engagement_map[i] = [np.percentile(wp_bin_matrix[i], j / 10) for j in range(1000)]
-    pickle.dump(engagement_map, open('../data/engagement_map.p', 'wb'))
-
-    # == == == == == == == == Part 6: Plot duration watch time map == == == == == == == == #
+    # == == == == == == == == Part 5: Plot duration watch time map == == == == == == == == #
     sea_green = '#2e8b57'
     to_plot_watch_time = True
     if to_plot_watch_time:

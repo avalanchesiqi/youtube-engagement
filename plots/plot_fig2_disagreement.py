@@ -51,7 +51,7 @@ def plot_scatter(ax, view_rank_dict, watch_rank_dict, color='k', cap=100):
         view_rank.append(sorted_by_view.index(vid) + 1)
         watch_rank.append(sorted_by_watch.index(vid) + 1)
 
-    print('Spearman correlation:', stats.spearmanr(view_rank, watch_rank))
+    print('>>> Spearman correlation:', stats.spearmanr(view_rank, watch_rank))
     ax.scatter(view_rank, watch_rank, s=1, c=color)
 
 

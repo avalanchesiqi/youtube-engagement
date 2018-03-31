@@ -1,12 +1,11 @@
-"""Converter for watch percentage and relative engagement """
+""" Converter for watch percentage and relative engagement. """
 
 import os, pickle
 import numpy as np
 
 
 def read_as_int_array(content, truncated=None, delimiter=None):
-    """
-    Read input as an int array.
+    """ Read input as an int array.
     :param content: string input
     :param truncated: head number of elements extracted
     :param delimiter: delimiter string
@@ -19,8 +18,7 @@ def read_as_int_array(content, truncated=None, delimiter=None):
 
 
 def read_as_float_array(content, truncated=None, delimiter=None):
-    """
-    Read input as a float array.
+    """ Read input as a float array.
     :param content: string input
     :param truncated: head number of elements extracted
     :param delimiter: delimiter string
@@ -33,8 +31,7 @@ def read_as_float_array(content, truncated=None, delimiter=None):
 
 
 def strify(iterable_struct, delimiter=','):
-    """
-    Convert an iterable structure to comma separated string
+    """ Convert an iterable structure to comma separated string.
     :param iterable_struct: an iterable structure
     :param delimiter: separated character, default comma
     :return: a string with delimiter separated
@@ -43,13 +40,12 @@ def strify(iterable_struct, delimiter=','):
 
 
 def write_dict_to_pickle(dict, path):
-    """
-    Write a dictionary object into pickle file
+    """ Write a dictionary object into pickle file.
     :param dict: a dictionary object
     :param path: output pickle file path
     :return: 
     """
     folder_path = os.path.dirname(path)
-    if not os.path.exists(folder_path):
+    if not (folder_path == '' or os.path.exists(folder_path)):
         os.makedirs(folder_path)
     pickle.dump(dict, open(path, 'wb'))

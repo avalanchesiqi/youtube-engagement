@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Scripts to plot Figure 4, compare relative engagement within the same channel."""
+""" Script to plot Figure 5, compare relative engagement within the same channel.
+UCy-taFzDCV-XcpTBa3pF68w: PBABowling
+"""
 
-from __future__ import print_function, division
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
 
 def exponent(x, pos):
-    'The two args are the value and tick position'
-    return '%1.0f' % (x)
+    """ The two args are the value and tick position. """
+    return '%1.0f' % (10 ** x)
 
 
 x_formatter = FuncFormatter(exponent)
@@ -60,13 +61,10 @@ if __name__ == '__main__':
         ax.xaxis.set_major_formatter(x_formatter)
         ax.set_xlabel('video duration (sec) $D$', fontsize=17)
         ax.tick_params(axis='both', which='major', labelsize=14)
-        # ax.spines['right'].set_visible(False)
-        # ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
         ax.xaxis.set_ticks_position('bottom')
-    # ax1.set_title('(c)', fontsize=20)
 
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.4)
-    plt.savefig('../images/fig4_within_channel.pdf', bbox_inches='tight')
+    plt.savefig('../images/fig5_within_channel.pdf', bbox_inches='tight')
     plt.show()

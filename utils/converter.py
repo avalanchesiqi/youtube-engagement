@@ -1,12 +1,10 @@
-"""Converter for watch percentage and relative engagement """
+""" Converter for watch percentage and relative engagement. """
 
-from __future__ import division
 import numpy as np
 
 
 def to_watch_percentage(lookup_table, duration, re_score, lookup_keys=None):
-    """
-    Convert relative engagement to watch percentage.
+    """ Convert relative engagement to watch percentage.
     :param lookup_table: duration ~ watch percentage table, in format of dur: [1st percentile, ..., 1000th percentile]
     :param duration: target input duration
     :param re_score: target input relative engagement score
@@ -37,8 +35,7 @@ def to_watch_percentage(lookup_table, duration, re_score, lookup_keys=None):
 
 
 def to_relative_engagement(lookup_table, duration, wp_score, lookup_keys=None):
-    """
-    Convert watch percentage to relative engagement
+    """ Convert watch percentage to relative engagement.
     :param lookup_table: duration ~ watch percentage table, in format of dur: [1st percentile, ..., 1000th percentile]
     :param duration: target input duration
     :param wp_score: target input watch percentage score

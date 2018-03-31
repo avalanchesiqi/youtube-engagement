@@ -60,9 +60,10 @@ def loading_data(input_loc, bin_number, min_bin):
             for f in files:
                 # get tweeted music videos
                 if f.startswith('news'):
+                    print('>>> Start to load data: {0}...!'.format(f))
                     get_duration_wp_from_file(os.path.join(subdir, f), duration_wp_tuple, duration_stats_dict)
-                    print('>>> Loading data: {0} done!'.format(f))
     else:
+        print('>>> Start to load data: {0}...!'.format(input_loc))
         get_duration_wp_from_file(input_loc, duration_wp_tuple, duration_stats_dict)
 
     # sort by duration in ascent order

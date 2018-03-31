@@ -7,7 +7,7 @@ from __future__ import print_function, division
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import numpy as np
-import cPickle as pickle
+import pickle
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     for x, y in zip(x_axis, y_axis2_tmp):
         y_axis2.append(to_watch_percentage(engagement_map, x, y))
     print(y_axis2)
-    ax1.plot(x_axis, y_axis2, 'r', label=r'Predict $\bar \mu_{30}$ via $\bar \eta_{30}$')
+    ax1.plot(x_axis, y_axis2, 'r', label=r'Predict $\bar \eta_{30}$ then map to $\bar \mu_{30}$')
 
     # y_axis3 = []
     # for x in x_axis:
@@ -103,4 +103,5 @@ if __name__ == '__main__':
 
     plt.tight_layout()
     plt.savefig('../images/fig7_predictor_example.pdf', bbox_inches='tight')
+    plt.savefig('../../yt-engagement/image/fig7_predictor_example.pdf', bbox_inches='tight')
     plt.show()

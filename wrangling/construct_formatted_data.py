@@ -13,12 +13,13 @@ Time: ~2M
 """
 
 import os, sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import argparse, json, isodate, time
 from datetime import datetime, timedelta
 import numpy as np
 
 from utils.helper import read_as_float_array, read_as_int_array, strify
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 def extract_info(input_path, output_path, truncated=None):
@@ -117,8 +118,8 @@ if __name__ == '__main__':
     # == == == == == == == == Part 2: Construct dataset == == == == == == == == #
     for subdir, _, files in os.walk(input_dir):
         for f in files:
+            print('>>> Start to reformat file {0}...'.format(os.path.join(subdir, f)))
             extract_info(os.path.join(subdir, f), os.path.join(output_dir, f[:-4]+'txt'), truncated=age)
-            print('>>> Finish extracting file {0}!'.format(os.path.join(subdir, f)))
 
     # get running time
     print('\n>>> Total running time: {0}'.format(str(timedelta(seconds=time.time() - start_time)))[:-3])
