@@ -57,8 +57,9 @@ if __name__ == '__main__':
     for subdir, _, files in os.walk(test_loc):
         for f in files:
             # if we have observed this channel before, minimal observations: k
-            if f in train_channel_cnt_map and train_channel_cnt_map[f] >= k:
-                train_data_path = os.path.join(train_loc, f)
+            channel_id = os.path.basename(os.path.normpath(f))
+            if channel_id in train_channel_cnt_map and train_channel_cnt_map[channel_id] >= k:
+                train_data_path = os.path.join(train_loc, channel_id[:4], channel_id)
                 train_lines = open(train_data_path, 'r').readlines()
 
                 # get topic encoding
@@ -76,7 +77,7 @@ if __name__ == '__main__':
                 with open(train_data_path, 'r') as fin:
                     for line in fin:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, channel_id, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1
@@ -97,7 +98,7 @@ if __name__ == '__main__':
                 with open(os.path.join(subdir, f), 'r') as fin:
                     for line in fin:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, channel_id, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1

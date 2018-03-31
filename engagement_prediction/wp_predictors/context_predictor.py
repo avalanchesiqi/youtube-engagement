@@ -3,7 +3,7 @@
 
 """ Predict watch percentage from video context.
 
-Usage: python duration_predictor.py -i ../ -o ./output
+Usage: python context_predictor.py -i ../ -o ./output
 Time: ~5M
 """
 

@@ -39,7 +39,10 @@ if __name__ == '__main__':
                     fin.readline()
                     for line in fin:
                         channel_id = line.rstrip().split('\t')[6]
-                        with open(os.path.join(output_loc, channel_id), 'a') as fout:
+                        sub_f = channel_id[:4]
+                        if not os.path.exists(os.path.join(output_loc, sub_f)):
+                            os.makedirs(os.path.join(output_loc, sub_f))
+                        with open(os.path.join(output_loc, sub_f, channel_id), 'a') as fout:
                             fout.write(line)
 
     # get running time
