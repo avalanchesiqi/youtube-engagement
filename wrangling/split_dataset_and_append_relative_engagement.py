@@ -5,15 +5,14 @@
 Train: 2016-07-01 to 2016-08-20
 Test: 2016-08-21 to 2016-08-31
 
-Usage: python append_relative_engagement_and_split.py -i ../data/formatted_tweeted_videos -o ../engagement_prediction
+Usage: python split_dataset_and_append_relative_engagement.py -i ../data/formatted_tweeted_videos -o ../engagement_prediction
 Time: ~15M
 """
 
 import os, sys, time, datetime, pickle, argparse
 
-from utils.converter import to_relative_engagement
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.converter import to_relative_engagement
 
 
 def extract_info(input_path, output_loc):

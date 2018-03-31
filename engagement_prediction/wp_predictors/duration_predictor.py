@@ -11,10 +11,9 @@ import os, sys, time, datetime, pickle, argparse
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from utils.helper import write_dict_to_pickle
 from utils.converter import to_watch_percentage
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 if __name__ == '__main__':

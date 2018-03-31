@@ -13,9 +13,8 @@ from sklearn.metrics import mean_absolute_error
 import numpy as np
 from scipy.optimize import curve_fit
 
-from utils.helper import read_as_float_array
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import read_as_float_array
 
 
 def func_powerlaw(x, a, b, c):

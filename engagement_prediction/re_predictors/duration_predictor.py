@@ -10,9 +10,8 @@ Time: ~1M
 import os, sys, time, datetime, argparse
 from sklearn.metrics import mean_absolute_error, r2_score
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from utils.helper import write_dict_to_pickle
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 if __name__ == '__main__':

@@ -10,9 +10,8 @@ Time: ~1H
 import os, sys, time, datetime, argparse
 import numpy as np
 
-from utils.helper import read_as_int_array, read_as_float_array
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import read_as_int_array, read_as_float_array
 
 
 def extract_engagement_data_from_file(filepath, age, handles, threshold=100):

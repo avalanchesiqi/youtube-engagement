@@ -3,14 +3,13 @@
 
 """Scripts to plot Figure 7, show a plausible example of relative engagement predictor."""
 
-from __future__ import print_function, division
 import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.converter import to_watch_percentage
 
 

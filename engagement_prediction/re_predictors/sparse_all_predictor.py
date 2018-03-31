@@ -12,10 +12,9 @@ from collections import defaultdict
 import numpy as np
 from scipy.sparse import coo_matrix
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from utils.helper import strify, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 def _load_data(filepath):

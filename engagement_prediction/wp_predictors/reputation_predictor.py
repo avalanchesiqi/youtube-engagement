@@ -11,10 +11,9 @@ import os, sys, time, datetime, argparse
 from collections import defaultdict
 import numpy as np
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from utils.helper import write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 def _load_data(filepath):

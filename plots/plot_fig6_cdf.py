@@ -11,9 +11,9 @@ import os, sys, time, datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.helper import read_as_int_array, read_as_float_array
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #

@@ -17,9 +17,8 @@ import argparse, json, isodate, time
 from datetime import datetime, timedelta
 import numpy as np
 
-from utils.helper import read_as_float_array, read_as_int_array, strify
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import read_as_float_array, read_as_int_array, strify
 
 
 def extract_info(input_path, output_path, truncated=None):

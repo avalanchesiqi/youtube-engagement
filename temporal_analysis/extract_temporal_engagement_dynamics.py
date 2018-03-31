@@ -12,10 +12,9 @@ Time: ~3H
 import os, sys, time, datetime, pickle, argparse
 import numpy as np
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.converter import to_relative_engagement
 from utils.helper import read_as_int_array, read_as_float_array, strify
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 def extract_engagement_dynamics_from_file(filepath, engagement_map_series, split_key_series, window_size, min_view=100):

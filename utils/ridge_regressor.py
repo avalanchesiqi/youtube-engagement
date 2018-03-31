@@ -60,8 +60,8 @@ class RidgeRegressor:
         test_yhat = best_predictor.predict(test_x)
         if self.verbose:
             print('>>> Predict {0} videos in test dataset'.format(len(test_yhat)))
-            print('>>> Ridge model: MAE of test dataset: {0}'.format(mean_absolute_error(test_y, test_yhat)))
-            print('>>> Ridge model: R2 of test dataset: {0}'.format(r2_score(test_y, test_yhat)))
+            print('>>> Ridge model: MAE of test dataset: {0:.4f}'.format(mean_absolute_error(test_y, test_yhat)))
+            print('>>> Ridge model: R2 of test dataset: {0:.4f}'.format(r2_score(test_y, test_yhat)))
         return test_yhat
 
     def predict_from_sparse(self, vectorize_train_func, vectorize_test_func):
