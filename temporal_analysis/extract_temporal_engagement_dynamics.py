@@ -5,7 +5,7 @@
 In sliding window engagement dynamics, we apply a minimal view threshold of 100.
 
 Usage: python extract_temporal_engagement_dynamics.py -i ../data/formatted_tweeted_videos
-Time: ~3H
+Time: ~2D
 """
 
 

@@ -29,7 +29,7 @@ class RidgeRegressor:
         test_x = self.test[:, :-1]
         test_y = self.test[:, -1]
 
-        train_x, cv_x, train_y, cv_y = train_test_split(train_cv_x, train_cv_y, test_size=self.cv_ratio)
+        train_x, cv_x, train_y, cv_y = train_test_split(train_cv_x, train_cv_y, test_size=self.cv_ratio, shuffle=False)
 
         if self.verbose:
             print('\n>>> Shape of train matrix: {0} x {1}'.format(*train_x.shape))
@@ -45,7 +45,7 @@ class RidgeRegressor:
             cv_yhat = predictor.predict(cv_x)
             mae = mean_absolute_error(cv_y, cv_yhat)
             if self.verbose:
-                print('>>> CV phase, MAE at alpha {0}: {1:.4f}'.format(alpha, mae))
+                print('>>> CV phase, MAE: {0} with alpha value: {1}'.format(mae, alpha))
             cv_mae.append(mae)
 
         # build the best predictor

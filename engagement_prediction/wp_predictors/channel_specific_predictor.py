@@ -91,7 +91,6 @@ if __name__ == '__main__':
                                 row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
                         row[-1] = float(wp30)
                         train_matrix.append(row)
-                train_matrix = np.array(train_matrix)
 
                 test_matrix = []
                 test_vids = []
@@ -113,7 +112,6 @@ if __name__ == '__main__':
                         row[-1] = float(wp30)
                         test_matrix.append(row)
                         test_vids.append(vid)
-                test_matrix = np.array(test_matrix)
 
                 # predict test data from customized ridge regressor
                 test_yhat = RidgeRegressor(train_matrix, test_matrix, verbose=False).predict()

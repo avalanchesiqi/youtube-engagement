@@ -76,7 +76,6 @@ if __name__ == '__main__':
     for subdir, _, files in os.walk(train_loc):
         for f in files:
             train_matrix.extend(_load_data(os.path.join(subdir, f))[0])
-    train_matrix = np.array(train_matrix)
 
     print('>>> Start to load test dataset...')
     test_matrix = []
@@ -86,7 +85,6 @@ if __name__ == '__main__':
             matrix, vids = _load_data(os.path.join(subdir, f))
             test_matrix.extend(matrix)
             test_vids.extend(vids)
-    test_matrix = np.array(test_matrix)
 
     print('>>> Finish loading all data!')
 

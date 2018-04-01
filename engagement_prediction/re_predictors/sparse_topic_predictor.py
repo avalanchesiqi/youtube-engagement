@@ -119,16 +119,14 @@ if __name__ == '__main__':
     for subdir, _, files in os.walk(train_loc):
         for f in files:
             train_matrix.extend(_load_data(os.path.join(subdir, f)))
-    train_matrix = np.array(train_matrix)
 
     print('>>> Start to load test dataset...')
     test_matrix = []
     for subdir, _, files in os.walk(test_loc):
         for f in files:
             test_matrix.extend(_load_data(os.path.join(subdir, f)))
-    test_matrix = np.array(test_matrix)
 
-    print('>>> Finish loading all data!\n')
+    print('>>> Finish loading all data!')
 
     # predict test data from customized ridge regressor
     test_yhat, test_vids = RidgeRegressor(train_matrix, test_matrix).predict_from_sparse(vectorize_train_data,
