@@ -67,7 +67,7 @@ class RidgeRegressor:
     def predict_from_sparse(self, vectorize_train_func, vectorize_test_func):
         """ Predict test sparse dataset with search best alpha value in sparse train/cv dataset.
         """
-        train_matrix, cv_matrix = train_test_split(self.train, test_size=self.cv_ratio)
+        train_matrix, cv_matrix = train_test_split(self.train, test_size=self.cv_ratio, shuffle=False)
 
         if self.verbose:
             print('\n>>> Length of train matrix: {0}'.format(len(train_matrix)))
