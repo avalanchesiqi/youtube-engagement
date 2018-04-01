@@ -70,9 +70,9 @@ class RidgeRegressor:
         train_matrix, cv_matrix = train_test_split(self.train, test_size=self.cv_ratio)
 
         if self.verbose:
-            print('>>> Length of train matrix: {0}'.format(len(train_matrix)))
+            print('\n>>> Length of train matrix: {0}'.format(len(train_matrix)))
             print('>>> Length of cv matrix: {0}'.format(len(cv_matrix)))
-            print('>>> Length of test matrix: {0}\n'.format(len(self.test)))
+            print('>>> Length of test matrix: {0}'.format(len(self.test)))
 
         # generate train dataset on the fly
         train_sparse_x, train_y, train_topics = vectorize_train_func(train_matrix)

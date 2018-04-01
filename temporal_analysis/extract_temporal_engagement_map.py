@@ -14,7 +14,7 @@ from collections import defaultdict
 
 
 def plot_map_from_file(input_path, output_dir):
-    age = os.path.basename(input_path)[3:-4]
+    age = os.path.basename(input_path)[-6: -4]
     duration_engagement_tuple = []
     duration_cnt_dict = defaultdict(int)
 

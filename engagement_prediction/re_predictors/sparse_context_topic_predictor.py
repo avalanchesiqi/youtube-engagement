@@ -30,7 +30,7 @@ def _load_data(filepath):
     return matrix
 
 
-def _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, topics, topic_dict):
+def _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, topics, topic_dict, keys=None):
     row_list = []
     col_list = []
     value_list = []
@@ -44,24 +44,22 @@ def _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, t
         col_list.append(1)
         value_list.append(1)
 
-    if category in category_dict:
+    if not category == '44':
         row_list.append(row_idx)
         col_list.append(2 + category_dict[category])
         value_list.append(1)
 
-    if detect_lang in lang_dict:
+    if not detect_lang == 'NA':
         row_list.append(row_idx)
         col_list.append(2 + category_cnt + lang_dict[detect_lang])
         value_list.append(1)
 
     topics = topics.split(',')
     for topic in topics:
-        if topic in topic_dict:
+        if keys is None or (keys is not None and topic in keys):
             row_list.append(row_idx)
             col_list.append(2 + category_cnt + lang_cnt + topic_dict[topic])
             value_list.append(1)
-        else:
-            return [], [], []
     return row_list, col_list, value_list
 
 
@@ -75,7 +73,7 @@ def vectorize_train_data(data):
     row_idx = 0
 
     for _, _, _, _, _, topics, _ in data:
-        if not topics == '' and topics != 'NA':
+        if not (topics == '' or topics == 'NA'):
             topics = topics.split(',')
             for topic in topics:
                 if topic not in topic_dict:
@@ -83,7 +81,7 @@ def vectorize_train_data(data):
                     topic_cnt += 1
 
     for _, duration, definition, category, detect_lang, topics, re30 in data:
-        if not topics == '' and topics != 'NA':
+        if not (topics == '' or topics == 'NA'):
             row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, topics, topic_dict)
             train_row.extend(row_list)
             train_col.extend(col_list)
@@ -100,11 +98,12 @@ def vectorize_test_data(data, topic_dict):
     test_value = []
     test_y = []
     n_topic = len(topic_dict)
+    topic_keys = list(topic_dict.keys())
     row_idx = 0
 
     for vid, duration, definition, category, detect_lang, topics, re30 in data:
-        if not topics == '' and topics != 'NA':
-            row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, topics, topic_dict)
+        if not (topics == '' or topics == 'NA'):
+            row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, definition, category, detect_lang, topics, topic_dict, keys=topic_keys)
             test_row.extend(row_list)
             test_col.extend(col_list)
             test_value.extend(value_list)

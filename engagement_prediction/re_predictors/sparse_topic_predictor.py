@@ -30,7 +30,7 @@ def _load_data(filepath):
     return matrix
 
 
-def _build_sparse_matrix(row_idx, duration, topics, topic_dict):
+def _build_sparse_matrix(row_idx, duration, topics, topic_dict, keys=None):
     row_list = []
     col_list = []
     value_list = []
@@ -41,12 +41,10 @@ def _build_sparse_matrix(row_idx, duration, topics, topic_dict):
 
     topics = topics.split(',')
     for topic in topics:
-        if topic in topic_dict:
+        if keys is None or (keys is not None and topic in keys):
             row_list.append(row_idx)
             col_list.append(1 + topic_dict[topic])
             value_list.append(1)
-        else:
-            return [], [], []
     return row_list, col_list, value_list
 
 
@@ -60,7 +58,7 @@ def vectorize_train_data(data):
     row_idx = 0
 
     for _, _, topics, _ in data:
-        if not topics == '' and topics != 'NA':
+        if not (topics == '' or topics == 'NA'):
             topics = topics.split(',')
             for topic in topics:
                 if topic not in topic_dict:
@@ -68,7 +66,7 @@ def vectorize_train_data(data):
                     topic_cnt += 1
 
     for _, duration, topics, re30 in data:
-        if not topics == '' and topics != 'NA':
+        if not (topics == '' or topics == 'NA'):
             row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, topics, topic_dict)
             train_row.extend(row_list)
             train_col.extend(col_list)
@@ -85,18 +83,19 @@ def vectorize_test_data(data, topic_dict):
     test_value = []
     test_y = []
     n_topic = len(topic_dict)
+    topic_keys = list(topic_dict.keys())
     row_idx = 0
 
     for vid, duration, topics, re30 in data:
-        if not topics == '' and topics != 'NA':
-            row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, topics, topic_dict)
+        if not (topics == '' or topics == 'NA'):
+            row_list, col_list, value_list = _build_sparse_matrix(row_idx, duration, topics, topic_dict, keys=topic_keys)
             test_row.extend(row_list)
             test_col.extend(col_list)
             test_value.extend(value_list)
             test_y.append(float(re30))
             row_idx += 1
             test_vids.append(vid)
-    return coo_matrix((test_value, (test_row, test_col)), shape=(row_idx, n_topic + 1)), test_y, test_vids
+    return coo_matrix((test_value, (test_row, test_col)), shape=(row_idx, n_topic+1)), test_y, test_vids
 
 
 if __name__ == '__main__':

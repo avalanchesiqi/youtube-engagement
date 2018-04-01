@@ -12,7 +12,7 @@ import os, time, datetime, argparse
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    print('>>> Start to extract videos from one channel into one file...\n')
+    print('>>> Start to extract videos from one channel into one file...')
     start_time = time.time()
 
     parser = argparse.ArgumentParser()

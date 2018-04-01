@@ -88,7 +88,7 @@ if __name__ == '__main__':
             test_vids.extend(vids)
     test_matrix = np.array(test_matrix)
 
-    print('>>> Finish loading all data!\n')
+    print('>>> Finish loading all data!')
 
     # predict test data from customized ridge regressor
     test_yhat = RidgeRegressor(train_matrix, test_matrix).predict()
