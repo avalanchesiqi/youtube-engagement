@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     engagement_map_loc = '../../data/engagement_map.p'
     if not os.path.exists(engagement_map_loc):
-        print('Engagement map not generated, start with generating engagement map first in ../../data dir!.')
+        print('Engagement map not generated, start with generating engagement map first in ../../data dir!')
         print('Exit program...')
         sys.exit(1)
 

@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     engagement_map_loc = '../../data/engagement_map.p'
     if not os.path.exists(engagement_map_loc):
-        print('Engagement map not generated, start with generating engagement map first in ../../data dir!.')
+        print('Engagement map not generated, start with generating engagement map first in ../../data dir!')
         print('Exit program...')
         sys.exit(1)
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         print('Relative engagement dataframe not found!')
         sys.exit(1)
 
-    wp_dataframe_path = './data/predicted_wp_sparse_df.csv'
+    wp_dataframe_path = './output/predicted_wp_sparse_df.csv'
     if os.path.exists(wp_dataframe_path):
         wp_data_f = pd.read_csv(wp_dataframe_path, sep='\t')
     else:
