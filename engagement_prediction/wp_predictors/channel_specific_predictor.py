@@ -7,8 +7,7 @@ Usage: python channel_specific_predictor.py -i ../ -o ./output
 Time: ~20M
 """
 
-import os, sys, time, datetime, argparse
-from collections import defaultdict
+import os, sys, time, datetime, argparse, pickle
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
@@ -36,12 +35,6 @@ if __name__ == '__main__':
                  'ur': 51, 'vi': 52, 'zh-cn': 53, 'zh-tw': 54}
     lang_cnt = len(lang_dict)
 
-    train_channel_cnt_map = defaultdict(int)
-    with open('./output/train_channel_watch_percentage.txt', 'r') as fin:
-        for line in fin:
-            channel_id, wp30 = line.rstrip().split('\t')
-            train_channel_cnt_map[channel_id] += 1
-
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file dir of formatted dataset', required=True)
@@ -56,28 +49,31 @@ if __name__ == '__main__':
     # == == == == == == == == Part 3: Start training == == == == == == == == #
     for subdir, _, files in os.walk(test_loc):
         for f in files:
+            test_channel_cluster = pickle.load(open(os.path.join(subdir, f), 'rb'))
+            train_channel_cluster = pickle.load(open(os.path.join(train_loc, f), 'rb'))
             # if we have observed this channel before, minimal observations: k
-            # f is the channel id
-            if f in train_channel_cnt_map and train_channel_cnt_map[f] >= k:
-                train_data_path = os.path.join(train_loc, f)
-                train_lines = open(train_data_path, 'r').readlines()
+            test_channel_list = test_channel_cluster.keys()
+            train_channel_list = train_channel_cluster.keys()
+            for channel_id in test_channel_list:
+                if channel_id in train_channel_list and len(train_channel_cluster[channel_id]) >= k:
+                    train_videos = train_channel_cluster[channel_id]
+                    test_videos = test_channel_cluster[channel_id]
 
-                # get topic encoding
-                topic_dict = {}
-                topic_cnt = 0
-                for topics in [x.split('\t')[7] for x in train_lines]:
-                    if not (topics == '' or topics == 'NA'):
-                        for topic in topics.split(','):
-                            if topic not in topic_dict:
-                                topic_dict[topic] = topic_cnt
-                                topic_cnt += 1
+                    # get topic encoding
+                    topic_dict = {}
+                    topic_cnt = 0
+                    for topics in [x.split('\t')[7] for x in train_videos]:
+                        if not (topics == '' or topics == 'NA'):
+                            for topic in topics.split(','):
+                                if topic not in topic_dict:
+                                    topic_dict[topic] = topic_cnt
+                                    topic_cnt += 1
 
-                # get channel history
-                train_matrix = []
-                with open(train_data_path, 'r') as fin:
-                    for line in fin:
+                    # get channel history
+                    train_matrix = []
+                    for train_video in train_videos:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = train_video.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1
@@ -92,12 +88,11 @@ if __name__ == '__main__':
                         row[-1] = float(wp30)
                         train_matrix.append(row)
 
-                test_matrix = []
-                test_vids = []
-                with open(os.path.join(subdir, f), 'r') as fin:
-                    for line in fin:
+                    test_matrix = []
+                    test_vids = []
+                    for test_video in test_videos:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = line.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = test_video.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1
@@ -113,10 +108,10 @@ if __name__ == '__main__':
                         test_matrix.append(row)
                         test_vids.append(vid)
 
-                # predict test data from customized ridge regressor
-                test_yhat = RidgeRegressor(train_matrix, test_matrix, verbose=False).predict()
+                    # predict test data from customized ridge regressor
+                    test_yhat = RidgeRegressor(train_matrix, test_matrix, verbose=False).predict()
 
-                predict_result_dict.update({vid: pred for vid, pred in zip(test_vids, test_yhat)})
+                    predict_result_dict.update({vid: pred for vid, pred in zip(test_vids, test_yhat)})
 
     # get running time
     print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])

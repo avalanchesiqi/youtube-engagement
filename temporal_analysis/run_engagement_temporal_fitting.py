@@ -4,7 +4,7 @@
 """ Scripts to run relative engagement temporal fitting.
 
 Usage: python run_engagement_temporal_fitting.py -i ./sliding_engagement_dynamics.csv
-Time: 
+Time: ~40M
 """
 
 import sys, os, time, datetime, argparse
@@ -62,17 +62,17 @@ if __name__ == '__main__':
                 # power-law
                 optimal_params = fit_with_powerlaw(days, re_list)
                 if optimal_params is not None:
-                    error_powerlaw = mean_absolute_error(re_list, [func_powerlaw(x, *optimal_params) for x in days])
+                    mae_powerlaw = mean_absolute_error(re_list, [func_powerlaw(x, *optimal_params) for x in days])
 
                     # linear reg
                     model = LinearRegression()
                     model.fit(ts, re_list)
-                    error_linear = mean_absolute_error(re_list, model.predict(ts))
+                    mae_linear = mean_absolute_error(re_list, model.predict(ts))
 
                     # constant
-                    error_constant = mean_absolute_error(re_list, [np.median(re_list)]*age)
+                    mae_constant = mean_absolute_error(re_list, [np.median(re_list)]*age)
 
-                    fitting_output.write('{0},{1},{2},{3}\n'.format(vid, error_powerlaw, error_linear, error_constant))
+                    fitting_output.write('{0},{1},{2},{3}\n'.format(vid, mae_powerlaw, mae_linear, mae_constant))
 
     fitting_output.close()
 

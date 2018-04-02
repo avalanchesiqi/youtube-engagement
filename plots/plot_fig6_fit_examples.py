@@ -5,7 +5,7 @@
 video 1: XIB8Z_hASOs
 video 2: hxUh6dS5Q_Q
 
-Usage: python plot_fig6_examples.py
+Usage: python plot_fig6_fit_examples.py
 Time: ~1M
 """
 

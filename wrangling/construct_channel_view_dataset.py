@@ -4,10 +4,10 @@
 """ Scripts to construct train/test dataset in a channel view.
 
 Usage: python construct_channel_view_dataset.py -i ../engagement_prediction
-Time: ~20M
+Time: ~30M
 """
 
-import os, time, datetime, argparse
+import os, time, datetime, argparse, string, pickle
 from collections import defaultdict
 
 
@@ -15,9 +15,7 @@ if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract videos from one channel into one file...')
     start_time = time.time()
-    buffer_size = 100000
-    buffer_cnt = 0
-    buffer = defaultdict(list)
+    channel_cluster_handle = string.ascii_letters + string.digits + '-_'
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file dir of train/test dataset in a category view', required=True)
@@ -35,25 +33,20 @@ if __name__ == '__main__':
         os.mkdir(test_channel_view_loc)
 
     # == == == == == == == == Part 2: Construct channel view dataset == == == == == == == == #
-    for input_loc, output_loc in [(train_loc, train_channel_view_loc), (test_loc, test_channel_view_loc)]:
-        for subdir, _, files in os.walk(input_loc):
-            for f in files:
-                print('>>> Start to convert file {0}!'.format(os.path.join(subdir, f)))
-                with open(os.path.join(subdir, f), 'r') as fin:
-                    fin.readline()
-                    for line in fin:
-                        channel_id = line.rstrip().split('\t')[6]
-                        buffer[channel_id].append(line)
-                        buffer_cnt += 1
-                        if buffer_cnt == buffer_size:
-                            # flush buffer
-                            for channel_id in buffer:
-                                with open(os.path.join(output_loc, channel_id), 'a') as fout:
-                                    for line in buffer[channel_id]:
-                                        fout.write(line)
-                            # reset buffer
-                            buffer_cnt = 0
-                            buffer = defaultdict(list)
+    for handle in channel_cluster_handle:
+        print('>>> Start to extract handle {0}...'.format('UC'+handle))
+        for input_loc, output_loc in [(train_loc, train_channel_view_loc), (test_loc, test_channel_view_loc)]:
+            buffer = defaultdict(list)
+            for subdir, _, files in os.walk(input_loc):
+                for f in files:
+                    with open(os.path.join(subdir, f), 'r') as fin:
+                        fin.readline()
+                        for line in fin:
+                            channel_id = line.rstrip().split('\t')[6]
+                            if channel_id[2] == handle:
+                                buffer[channel_id].append(line)
+            # flush buffer
+            pickle.dump(buffer, open(os.path.join(output_loc, 'UC{0}.p'.format(handle)), 'wb'))
 
     # get running time
     print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
