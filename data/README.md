@@ -1,7 +1,7 @@
 # Dataset on YouTube engagement study
 
 ## Sofware
-  An integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
+  This dataset is collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
   The data is hosted on [Google drive](https://drive.google.com/drive/folders/1xCEJU5P185tDJIk-XNV3cckfFAW3W1Px?usp=sharing).
@@ -26,17 +26,20 @@
   │   │   science.json
   │   │   shows.json
   │   │   sports.json
-  |   |   trailers.json
+  │   │   trailers.json
   │   │   travel.json
   └───quality_videos.tar.bz2
-      │   billboard16.json
-      |   top_news.json
-      │   vevo.json
+  │   │   billboard16.json
+  │   │   top_news.json
+  │   │   vevo.json
+  └───freebase_mid_type_name.tar.bz2  
   ```
 
 ### File Description
-All files are in `json` format and compressed in `tar.bz2`.
-Uncompress by command `find -name "*_videos.tar.bz2" -exec tar -jxvf {} \;`
+All files are compressed in `tar.bz2`.
+Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
+TWEETED VIDEOS and QUALITY VIDEOS datasets are in `json` format.
+`freebase_mid_type_name.csv` contains 46,570,472 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 
 Dataset | Uncompressed | Compressed | #Videos | #Channels
 --- | --- | --- | --- | ---
@@ -46,7 +49,7 @@ VEVO videos | 1.4GB | - | 67,649 | 8,685
 Billboard16 videos | 1.1MB | - | 63 | 47
 Top news videos | 469MB | - | 28,685 | 91
 
-## Data Fields
+## Video Data Fields
 Each line is a YouTube video, an example is shown below.
 ```json
 {
@@ -90,3 +93,4 @@ Each line is a YouTube video, an example is shown below.
 
 ### topicDetails field
 `topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dump](https://developers.google.com/freebase/).
+We provide extracted mapping results in `freebase_mid_type_name.csv`.
