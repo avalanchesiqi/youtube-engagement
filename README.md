@@ -1,7 +1,7 @@
 # Code and Data for YouTube engagement study
 
 We release the code and data for the following paper,
-> **Measuring Video Engagement: An Empirical Study on YouTube**. Siqi Wu, Marian-Andrei Rizoiu, and Lexing Xie. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) \]
+> Siqi Wu, Marian-Andrei Rizoiu, and Lexing Xie. Measuring Video Engagement: An Empirical Study on YouTube. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
 
 ## Sofware
   This dataset is collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
@@ -36,6 +36,7 @@ We release the code and data for the following paper,
   │   │   top_news.json
   │   │   vevo.json
   └───freebase_mid_type_name.tar.bz2  
+      │   freebase_mid_type_name.csv
   ```
 
 ### File Description

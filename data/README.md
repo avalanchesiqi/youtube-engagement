@@ -33,6 +33,7 @@
   │   │   top_news.json
   │   │   vevo.json
   └───freebase_mid_type_name.tar.bz2  
+      │   freebase_mid_type_name.csv
   ```
 
 ### File Description
