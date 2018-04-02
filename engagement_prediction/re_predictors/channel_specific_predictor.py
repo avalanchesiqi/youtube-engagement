@@ -49,6 +49,7 @@ if __name__ == '__main__':
     # == == == == == == == == Part 3: Start training == == == == == == == == #
     for subdir, _, files in os.walk(test_loc):
         for f in files:
+            print('>>> Start to predict test channel {0}...'.format(os.path.join(subdir, f)))
             test_channel_cluster = pickle.load(open(os.path.join(subdir, f), 'rb'))
             train_channel_cluster = pickle.load(open(os.path.join(train_loc, f), 'rb'))
             # if we have observed this channel before, minimal observations: k
@@ -87,6 +88,7 @@ if __name__ == '__main__':
                                 row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
                         row[-1] = float(re30)
                         train_matrix.append(row)
+                    train_matrix = np.array(train_matrix)
 
                     test_matrix = []
                     test_vids = []
@@ -103,10 +105,12 @@ if __name__ == '__main__':
                         if not (topics == '' or topics == 'NA'):
                             topics = topics.split(',')
                             for topic in topics:
-                                row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
+                                if topic in topic_dict:
+                                    row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
                         row[-1] = float(re30)
                         test_matrix.append(row)
                         test_vids.append(vid)
+                    test_matrix = np.array(test_matrix)
 
                     # predict test data from customized ridge regressor
                     test_yhat = RidgeRegressor(train_matrix, test_matrix, verbose=False).predict()

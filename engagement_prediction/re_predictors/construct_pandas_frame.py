@@ -78,15 +78,15 @@ if __name__ == '__main__':
         test_duration = pickle.load(open(test_duration_path, 'rb'))
 
         # generate pandas dataframe
-        true_data_f = pd.DataFrame(true_dict.items(), columns=['Vid', 'True'])
-        duration_data_f = pd.DataFrame(duration_predictor.items(), columns=['Vid', 'Duration'])
-        context_data_f = pd.DataFrame(context_predictor.items(), columns=['Vid', 'Context'])
-        topic_data_f = pd.DataFrame(topic_predictor.items(), columns=['Vid', 'Topic'])
-        context_topic_data_f = pd.DataFrame(context_topic_predictor.items(), columns=['Vid', 'CTopic'])
-        channel_reputation_data_f = pd.DataFrame(channel_reputation_predictor.items(), columns=['Vid', 'Reputation'])
-        all_data_f = pd.DataFrame(all_predictor.items(), columns=['Vid', 'All'])
-        channel_specific_data_f = pd.DataFrame(channel_specific_predictor.items(), columns=['Vid', 'CSP'])
-        test_duration_data_f = pd.DataFrame(test_duration.items(), columns=['Vid', 'TDuration'])
+        true_data_f = pd.DataFrame(list(true_dict.items()), columns=['Vid', 'True'])
+        duration_data_f = pd.DataFrame(list(duration_predictor.items()), columns=['Vid', 'Duration'])
+        context_data_f = pd.DataFrame(list(context_predictor.items()), columns=['Vid', 'Context'])
+        topic_data_f = pd.DataFrame(list(topic_predictor.items()), columns=['Vid', 'Topic'])
+        context_topic_data_f = pd.DataFrame(list(context_topic_predictor.items()), columns=['Vid', 'CTopic'])
+        channel_reputation_data_f = pd.DataFrame(list(channel_reputation_predictor.items()), columns=['Vid', 'Reputation'])
+        all_data_f = pd.DataFrame(list(all_predictor.items()), columns=['Vid', 'All'])
+        channel_specific_data_f = pd.DataFrame(list(channel_specific_predictor.items()), columns=['Vid', 'CSP'])
+        test_duration_data_f = pd.DataFrame(list(test_duration.items()), columns=['Vid', 'VDuration'])
         data_f = true_data_f.merge(duration_data_f, on='Vid') \
             .merge(context_data_f, on='Vid') \
             .merge(topic_data_f, on='Vid') \

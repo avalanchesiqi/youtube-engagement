@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Scripts to plot Figure 7, show a plausible example of relative engagement predictor."""
+""" Scripts to plot Figure 8, show plausible effect of predicting via relative engagement.
+UCy-taFzDCV-XcpTBa3pF68w: PBABowling
 
-import sys, os
+Usage: python plot_fig8_relative_engagement_effect.py
+Time: ~1M
+"""
+
+import sys, os, time, datetime, pickle
 import numpy as np
-import pickle
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.converter import to_watch_percentage
+from utils.ridge_regressor import RidgeRegressor
 
 
 def exponent(x, pos):
-    'The two args are the value and tick position'
-    return '%1.0f' % (x)
-
-
-x_formatter = FuncFormatter(exponent)
+    """ The two args are the value and tick position. """
+    return '{0:.0f}'.format(x)
 
 
 def build_features(arr):
@@ -34,9 +36,51 @@ def predict(duration, features, params):
 
 
 if __name__ == '__main__':
-    engagement_map = pickle.load(open('../data/engagement_map.p', 'rb'))
+    # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
+    print('>>> Start to plot plausible effect of predicting via relative engagement...')
+    start_time = time.time()
 
+    channel_id = 'UCy-taFzDCV-XcpTBa3pF68w'
     channel_title = 'PBABowling'
+
+    # == == == == == == == == Part 2: Load dataset == == == == == == == == #
+    engagement_map_loc = '../data/engagement_map.p'
+    if not os.path.exists(engagement_map_loc):
+        print('Engagement map not generated, start with generating engagement map first in ../data dir!.')
+        print('Exit program...')
+        sys.exit(1)
+
+    engagement_map = pickle.load(open(engagement_map_loc, 'rb'))
+    split_keys = np.array(engagement_map['duration'])
+
+    channel_view_train_path = '../engagement_prediction/train_data_channel_view/UC{0}.p'.format(channel_id[2])
+    channel_view_test_path = '../engagement_prediction/test_data_channel_view/UC{0}.p'.format(channel_id[2])
+    if not os.path.exists(channel_view_train_path):
+        print('>>> No train data in channel view found! Run construct_channel_view_dataset.py first!')
+        sys.exit(1)
+    if not os.path.exists(channel_view_test_path):
+        print('>>> No test data in channel view found! Run construct_channel_view_dataset.py first!')
+        sys.exit(1)
+
+    channel_train_videos = pickle.load(open(channel_view_train_path, 'rb'))[channel_id]
+    channel_test_videos = pickle.load(open(channel_view_test_path, 'rb'))[channel_id]
+
+    channel_duration_list = []
+    channel_watch_percentage_list = []
+    channel_relative_engagement_list = []
+
+    for channel_videos in [channel_train_videos, channel_test_videos]:
+        for video in channel_videos:
+            _, _, duration, tails = video.split('\t', 3)
+            _, wp30, re30, _, _, _ = tails.rsplit('\t', 5)
+            channel_duration_list.append(int(duration))
+            channel_watch_percentage_list.append(float(wp30))
+            channel_relative_engagement_list.append(float(re30))
+
+    channel_duration_list = np.array(channel_duration_list)
+    channel_watch_percentage_list = np.array(channel_watch_percentage_list)
+    channel_relative_engagement_list = np.array(channel_relative_engagement_list)
+
     train_durations = [110, 4729, 147, 133, 69, 5558, 59, 77, 4601, 4995, 11, 146, 118, 5723, 122, 58, 3590,
                        5845, 145, 132, 9, 160, 5052]
     train_wps = [0.783407427569, 0.192458562525, 0.718550898839, 0.810546604288,
@@ -101,6 +145,4 @@ if __name__ == '__main__':
     ax1.legend(loc='lower left', fontsize=14, frameon=False)
 
     plt.tight_layout()
-    plt.savefig('../images/fig7_predictor_example.pdf', bbox_inches='tight')
-    plt.savefig('../../yt-engagement/image/fig7_predictor_example.pdf', bbox_inches='tight')
     plt.show()

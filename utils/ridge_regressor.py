@@ -21,7 +21,7 @@ class RidgeRegressor:
         self.cv_ratio = cv_ratio
         self.verbose = verbose
 
-    def predict(self):
+    def predict(self, show_params=False):
         """ Predict test dataset with search best alpha value in train/cv dataset.
         """
         train_cv_x = self.train[:, :-1]
@@ -55,6 +55,10 @@ class RidgeRegressor:
             print('>>> Best hyper parameter alpha: {0}'.format(best_alpha))
         best_predictor = Ridge(alpha=best_alpha)
         best_predictor.fit(train_cv_x, train_cv_y)
+
+        if show_params:
+            print('>>> Coef: {0}'.format(best_predictor.coef_))
+            print('>>> Intercept: {0}'.format(best_predictor.intercept_))
 
         # predict test dataset
         test_yhat = best_predictor.predict(test_x)

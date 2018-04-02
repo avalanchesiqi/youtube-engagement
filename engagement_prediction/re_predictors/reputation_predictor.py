@@ -91,7 +91,7 @@ if __name__ == '__main__':
     print('>>> Finish loading all data!')
 
     # predict test data from customized ridge regressor
-    test_yhat = RidgeRegressor(train_matrix, test_matrix).predict()
+    test_yhat = RidgeRegressor(train_matrix, test_matrix).predict(show_params=True)
 
     # get running time
     print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
