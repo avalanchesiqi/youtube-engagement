@@ -4,7 +4,7 @@
 """ Script to plot Figure 6, CDF of temporal change in relative engagement.
 
 Usage: python plot_fig6_cdf.py
-Time: ~2M
+Time: ~3M
 """
 
 import os, sys, time, datetime

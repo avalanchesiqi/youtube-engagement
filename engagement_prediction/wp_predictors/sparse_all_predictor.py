@@ -147,8 +147,13 @@ if __name__ == '__main__':
                  'ur': 51, 'vi': 52, 'zh-cn': 53, 'zh-tw': 54}
     lang_cnt = len(lang_dict)
 
+    train_channel_watch_percentage_path = './output/train_channel_watch_percentage.txt'
+    if not os.path.exists(train_channel_watch_percentage_path):
+        print('>>> No channel watch percentage found! Run extract_channel_reputation.py first!')
+        sys.exit(1)
+
     channel_wp_dict = defaultdict(list)
-    with open('./output/train_channel_watch_percentage.txt', 'r') as fin:
+    with open(train_channel_watch_percentage_path, 'r') as fin:
         for line in fin:
             channel_id, wp30 = line.rstrip().split('\t')
             channel_wp_dict[channel_id].append(float(wp30))

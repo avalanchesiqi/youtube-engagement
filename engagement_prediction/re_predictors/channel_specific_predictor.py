@@ -57,9 +57,9 @@ if __name__ == '__main__':
     for subdir, _, files in os.walk(test_loc):
         for f in files:
             # if we have observed this channel before, minimal observations: k
-            channel_id = os.path.basename(os.path.normpath(f))
-            if channel_id in train_channel_cnt_map and train_channel_cnt_map[channel_id] >= k:
-                train_data_path = os.path.join(train_loc, channel_id[:4], channel_id)
+            # f is the channel id
+            if f in train_channel_cnt_map and train_channel_cnt_map[f] >= k:
+                train_data_path = os.path.join(train_loc, f)
                 train_lines = open(train_data_path, 'r').readlines()
 
                 # get topic encoding

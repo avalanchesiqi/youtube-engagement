@@ -8,12 +8,16 @@ Time: ~20M
 """
 
 import os, time, datetime, argparse
+from collections import defaultdict
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract videos from one channel into one file...')
     start_time = time.time()
+    buffer_size = 100000
+    buffer_cnt = 0
+    buffer = defaultdict(list)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file dir of train/test dataset in a category view', required=True)
@@ -39,11 +43,17 @@ if __name__ == '__main__':
                     fin.readline()
                     for line in fin:
                         channel_id = line.rstrip().split('\t')[6]
-                        sub_f = channel_id[:4]
-                        if not os.path.exists(os.path.join(output_loc, sub_f)):
-                            os.makedirs(os.path.join(output_loc, sub_f))
-                        with open(os.path.join(output_loc, sub_f, channel_id), 'a') as fout:
-                            fout.write(line)
+                        buffer[channel_id].append(line)
+                        buffer_cnt += 1
+                        if buffer_cnt == buffer_size:
+                            # flush buffer
+                            for channel_id in buffer:
+                                with open(os.path.join(output_loc, channel_id), 'a') as fout:
+                                    for line in buffer[channel_id]:
+                                        fout.write(line)
+                            # reset buffer
+                            buffer_cnt = 0
+                            buffer = defaultdict(list)
 
     # get running time
     print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])

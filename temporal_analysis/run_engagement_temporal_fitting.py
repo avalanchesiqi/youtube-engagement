@@ -7,33 +7,39 @@ Usage: python run_engagement_temporal_fitting.py -i ./sliding_engagement_dynamic
 Time: 
 """
 
-import sys, os, argparse
+import sys, os, time, datetime, argparse
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 import numpy as np
 from scipy.optimize import curve_fit
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import read_as_float_array
+from utils.helper import read_as_int_array, read_as_float_array
 
 
 def func_powerlaw(x, a, b, c):
     return a * (x**b) + c
 
 
-def fit_with_powerlaw(x, y):
+def fit_with_powerlaw(x, y, max_iter=10000):
     x = np.asarray(x).astype(float)
     y = np.asarray(y).astype(float)
     try:
-        params, _ = curve_fit(func_powerlaw, x, y, maxfev=10000)
+        params, _ = curve_fit(func_powerlaw, x, y, maxfev=max_iter)
         return params
-    except:
-        pass
+    except Exception as e:
+        print('+++ Fail to fit with power law with error message,', str(e))
+        if 'has reached maxfev' in str(e):
+            if max_iter == 50000:
+                pass
+            else:
+                return fit_with_powerlaw(x, y, max_iter=50000)
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to fit sliding window temporal engagement dynamics...')
+    start_time = time.time()
     age = 30
     ts = np.arange(1, age + 1).reshape(-1, 1)
 
@@ -43,18 +49,20 @@ if __name__ == '__main__':
 
     input_path = args.input
     fitting_output = open('./sliding_fitting_results.csv', 'w')
+    fitting_output.write('Vid,Err_Powerlaw,Err_linear,Err_constant\n')
 
     with open(input_path, 'r') as fin:
         for line in fin:
-            vid, _, _, re_list = line.rstrip().split('\t')
+            vid, days, _, re_list = line.rstrip().split('\t')
+            days = read_as_int_array(days, delimiter=',')
             re_list = read_as_float_array(re_list, delimiter=',')
 
             # pre-requisite: views in all sliding windows (first 30 days) are at least 100
-            if len(re_list) == age:
+            if len(days) == age:
                 # power-law
-                optimal_params = fit_with_powerlaw(ts, re_list)
+                optimal_params = fit_with_powerlaw(days, re_list)
                 if optimal_params is not None:
-                    error_power = mean_absolute_error(re_list, [func_powerlaw(x, *optimal_params) for x in ts])
+                    error_powerlaw = mean_absolute_error(re_list, [func_powerlaw(x, *optimal_params) for x in days])
 
                     # linear reg
                     model = LinearRegression()
@@ -64,7 +72,10 @@ if __name__ == '__main__':
                     # constant
                     error_constant = mean_absolute_error(re_list, [np.median(re_list)]*age)
 
-                    fitting_output.write('{0},{1},{2},{3}\n'.format(vid, error_power, error_linear, error_constant))
+                    fitting_output.write('{0},{1},{2},{3}\n'.format(vid, error_powerlaw, error_linear, error_constant))
 
     fitting_output.close()
+
+    # get running time
+    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
 
