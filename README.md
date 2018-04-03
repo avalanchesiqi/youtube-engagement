@@ -1,7 +1,8 @@
 # Code and Data for YouTube engagement study
 
-We release the code and data for the following paper,
-> Siqi Wu, Marian-Andrei Rizoiu, and Lexing Xie. Measuring Video Engagement: An Empirical Study on YouTube. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
+We release the code and data for the following paper.
+If you use these datasets, or refer to its results, please cite:
+> Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Measuring Video Engagement: An Empirical Study on YouTube. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
 
 ## Software
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
@@ -10,7 +11,7 @@ These datasets are collected via an integrated YouTube data crawler - [YouTube i
 All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplotlib 2.1 and SciPy 0.19.
 
 ## Data
-The data is hosted on [Kaggle](https://www.kaggle.com/avalanchesiqi/youtube-engagement).
+The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
   
   ```
   data

@@ -1,10 +1,14 @@
-# Dataset on YouTube engagement study
+# Dataset for YouTube Engagement Study
+
+These datasets are first used in the following paper.
+If you use these datasets, or refer to its results, please cite:
+> Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Measuring Video Engagement: An Empirical Study on YouTube. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)|[code](https://github.com/avalanchesiqi/youtube-engagement)|[data](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing)\]
 
 ## Software
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
-The data is hosted on [Kaggle](https://www.kaggle.com/avalanchesiqi/youtube-engagement).
+The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
   
   ```
   data
