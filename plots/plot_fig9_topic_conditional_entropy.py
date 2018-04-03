@@ -81,7 +81,7 @@ if __name__ == '__main__':
     bin_num = int(1 / bin_gap)
 
     # == == == == == == == == Part 2: Load Freebase dictionary == == == == == == == == #
-    freebase_dict_loc = '../data/freebase_mid_type_name.txt'
+    freebase_dict_loc = '../data/freebase_mid_type_name.csv'
     if not os.path.exists(freebase_dict_loc):
         print('Freebase dictionary not found!')
         print('Exit program...')
@@ -168,7 +168,7 @@ if __name__ == '__main__':
         plt.xscale('log')
         plt.gca().xaxis.set_major_formatter(FuncFormatter(exponent))
         plt.ylim(ymax=-np.sum([p * safe_log2(p) for p in [bin_gap]*bin_num]))
-        plt.ylim(ymin=3.8)
+        plt.ylim(ymin=3.88)
         plt.tick_params(axis='both', which='major', labelsize=14)
         plt.xlabel('topic size', fontsize=16)
         plt.ylabel('conditional entropy', fontsize=16)

@@ -3,11 +3,14 @@
 We release the code and data for the following paper,
 > Siqi Wu, Marian-Andrei Rizoiu, and Lexing Xie. Measuring Video Engagement: An Empirical Study on YouTube. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
 
-## Sofware
-  This dataset is collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
+## Software
+These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
+
+## Python packages version
+All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplotlib 2.1 and SciPy 0.19.
 
 ## Data
-  The data is hosted on [Google drive](https://drive.google.com/drive/folders/1xCEJU5P185tDJIk-XNV3cckfFAW3W1Px?usp=sharing).
+The data is hosted on [Kaggle](https://www.kaggle.com/avalanchesiqi/youtube-engagement).
   
   ```
   data
@@ -42,19 +45,33 @@ We release the code and data for the following paper,
 ### File Description
 All files are compressed in `tar.bz2`.
 Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
-TWEETED VIDEOS and QUALITY VIDEOS datasets are in `json` format.
+Tweeted videos and Quality videos datasets are in `json` format.
 `freebase_mid_type_name.csv` contains 46,570,472 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 
 Dataset | Uncompressed | Compressed | #Videos | #Channels
 --- | --- | --- | --- | ---
 Tweeted videos | 26GB | 4.6GB | 5,331,204 | 1,257,412
 Quality videos | 1.9GB | 359MB | 96,397 | 8,823
-VEVO videos | 1.4GB | - | 67,649 | 8,685
+Vevo videos | 1.4GB | - | 67,649 | 8,685
 Billboard16 videos | 1.1MB | - | 63 | 47
 Top news videos | 469MB | - | 28,685 | 91
+freebase_mid_type_name | 2.5GB | 636MB | - | - |
+
+### Tweeted videos dataset
+This dataset contains YouTube videos published between July 1st and August 31st, 2016.
+To be collected, the video needs
+(a) be mentioned on Twitter during aforementioned collection period;
+(b) have insight statistics available;
+(c) have at least 100 views within the first 30 days after upload.
+
+### Quality videos datasets
+These datasets contain videos deemed of high quality by domain experts.
+* Vevo videos: Videos of verified Vevo artists, as of August 31st, 2016.
+* Billboard16 videos: Videos of [2016 Billboard Hot 100 chart](http://www.billboard.com/charts/year-end/2016/hot-100-songs).
+* Top news videos: Videos of [top 100 most viewed News channels](https://vidstatsx.com/youtube-top-100-most-viewed-news-politics).
 
 ## Video Data Fields
-Each line is a YouTube video, an example is shown below.
+Each line is a YouTube video in `json` format, an example is shown below.
 ```json
 {
    "id": "pFMj8KL8nJA",
