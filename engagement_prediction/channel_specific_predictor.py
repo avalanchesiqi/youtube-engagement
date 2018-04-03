@@ -1,23 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Predict watch percentage from channel specific predictor.
+""" Predict engagement metrics from channel specific predictor.
 
-Usage: python channel_specific_predictor.py -i ../ -o ./output
+Target: predict watch percentage
+Usage: python channel_specific_predictor.py -i ./ -o ./output -f wp
+Time: ~20M
+
+Target: predict relative engagement
+Usage: python channel_specific_predictor.py -i ./ -o ./output -f re
 Time: ~20M
 """
 
 import os, sys, time, datetime, argparse, pickle
 import numpy as np
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.helper import write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    print('>>> Start to predict watch percentage with all features in channel specific predictor...')
     start_time = time.time()
     predict_result_dict = {}
     # for one channel, minimal videos in training dataset so the predictor can be built
@@ -39,12 +43,32 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file dir of formatted dataset', required=True)
     parser.add_argument('-o', '--output', help='output file dir of predictor result', required=True)
+    parser.add_argument('-f', '--function', help='choose prediction target', required=True)
     args = parser.parse_args()
 
     input_dir = args.input
     output_dir = args.output
+    target = args.function
+
+    if target == 'wp':
+        is_re = False
+        print('>>> Start to predict watch percentage with all features in channel specific predictor...')
+    elif target == 're':
+        is_re = True
+        print('>>> Start to predict relative engagement with all features in channel specific predictor...')
+    else:
+        print('>>> Error: Unknown prediction target! It mush be wp or re!')
+        print('>>> Exit...')
+        print(sys.exit(1))
+
     train_loc = os.path.join(input_dir, 'train_data_channel_view')
     test_loc = os.path.join(input_dir, 'test_data_channel_view')
+    if not (os.path.exists(train_loc) and os.path.exists(test_loc)):
+        print('>>> Error: Did not find train or test dataset in channel view!')
+        print('>>> Exit...')
+        print(sys.exit(1))
+
+    os.makedirs(output_dir, exist_ok=True)
 
     # == == == == == == == == Part 3: Start training == == == == == == == == #
     for subdir, _, files in os.walk(test_loc):
@@ -74,7 +98,7 @@ if __name__ == '__main__':
                     train_matrix = []
                     for train_video in train_videos:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = train_video.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, re30, _ = train_video.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1
@@ -86,7 +110,8 @@ if __name__ == '__main__':
                             topics = topics.split(',')
                             for topic in topics:
                                 row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
-                        row[-1] = float(wp30)
+                        target = [wp30, re30][is_re]
+                        row[-1] = float(target)
                         train_matrix.append(row)
                     train_matrix = np.array(train_matrix)
 
@@ -94,7 +119,7 @@ if __name__ == '__main__':
                     test_vids = []
                     for test_video in test_videos:
                         row = np.zeros(1+1+category_cnt+lang_cnt+topic_cnt+1)
-                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, _, _ = test_video.rstrip().split('\t', 12)
+                        vid, publish, duration, definition, category, detect_lang, _, topics, _, _, wp30, re30, _ = test_video.rstrip().split('\t', 12)
                         row[0] = np.log10(int(duration))
                         if definition == '1':
                             row[1] = 1
@@ -107,7 +132,8 @@ if __name__ == '__main__':
                             for topic in topics:
                                 if topic in topic_dict:
                                     row[2 + category_cnt + lang_cnt + topic_dict[topic]] = 1
-                        row[-1] = float(wp30)
+                        target = [wp30, re30][is_re]
+                        row[-1] = float(target)
                         test_matrix.append(row)
                         test_vids.append(vid)
                     test_matrix = np.array(test_matrix)
@@ -125,4 +151,5 @@ if __name__ == '__main__':
     if to_write:
         print('>>> Prepare to write to pickle file...')
         print('>>> Number of videos in final test result dict: {0}'.format(len(predict_result_dict)))
-        write_dict_to_pickle(dict=predict_result_dict, path=os.path.join(output_dir, 'csp_predictor_{0}.p'.format(k)))
+        write_dict_to_pickle(dict=predict_result_dict,
+                             path=os.path.join(output_dir, '{0}_csp_predictor_{1}.p'.format(['wp', 're'][is_re], k)))

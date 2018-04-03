@@ -17,7 +17,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.converter import to_watch_percentage
 
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     print('>>> Start to convert predicted relative engagement results from watch percentage results...')
     start_time = time.time()
 
-    engagement_map_loc = '../../data/engagement_map.p'
+    engagement_map_loc = '../data/engagement_map.p'
     if not os.path.exists(engagement_map_loc):
         print('Engagement map not generated, start with generating engagement map first in ../../data dir!')
         print('Exit program...')
@@ -36,14 +36,14 @@ if __name__ == '__main__':
     split_keys = np.array(engagement_map['duration'])
 
     # load pandas dataframe if exists
-    re_dataframe_path = '../re_predictors/output/predicted_re_sparse_df.csv'
+    re_dataframe_path = './output/predicted_re_df.csv'
     if os.path.exists(re_dataframe_path):
         re_data_f = pd.read_csv(re_dataframe_path, sep='\t')
     else:
         print('Relative engagement dataframe not found!')
         sys.exit(1)
 
-    wp_dataframe_path = './output/predicted_wp_sparse_df.csv'
+    wp_dataframe_path = './output/predicted_wp_df.csv'
     if os.path.exists(wp_dataframe_path):
         wp_data_f = pd.read_csv(wp_dataframe_path, sep='\t')
     else:
@@ -65,3 +65,6 @@ if __name__ == '__main__':
     for i in range(len(name_list)):
         print('\n>>> {2} MAE scores for wp and converted wp: {0} - {1}'.format(mae_list[2*i], mae_list[2*i+1], name_list[i]))
         print('>>> {2} R2  scores for wp and converted wp: {0} - {1}'.format(r2_list[2*i], r2_list[2*i+1], name_list[i]))
+
+    # get running time
+    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])

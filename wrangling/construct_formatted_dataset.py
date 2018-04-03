@@ -5,10 +5,12 @@
 Note the released dataset is cleaned, i.e., all invalid records are erased. If one starts the data collection/analysis
 from scratch, s/he may need to apply additional filters and handle corrupted data.
 
-Usage: python construct_formatted_data.py -i input_doc -o output_doc
-Example: python construct_formatted_dataset.py -i ../data/tweeted_videos -o ../data/formatted_tweeted_videos
+Target: extract tweeted videos dataset
+Usage: python construct_formatted_dataset.py -i ../data/tweeted_videos -o ../data/formatted_tweeted_videos
 Time: ~1H
-Example: python construct_formatted_dataset.py -i ../data/quality_videos -o ../data/formatted_quality_videos
+
+Target: extract quality videos dataset
+Usage: python construct_formatted_dataset.py -i ../data/quality_videos -o ../data/formatted_quality_videos
 Time: ~2M
 """
 

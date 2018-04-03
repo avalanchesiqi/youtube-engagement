@@ -1,21 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Predict relative engagement from video context.
+""" Predict engagement metrics from video context.
 
-Usage: python context_predictor.py -i ../ -o ./output
+Target: predict watch percentage
+Usage: python context_predictor.py -i ./ -o ./output -f wp
+Time: ~5M
+
+Target: predict relative engagement
+Usage: python context_predictor.py -i ./ -o ./output -f re
 Time: ~5M
 """
 
 import os, sys, time, datetime, argparse
 import numpy as np
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.helper import write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
-def _load_data(filepath):
+def _load_data(filepath, is_re):
     """ Load features space for context predictor.
     """
     matrix = []
@@ -24,24 +29,24 @@ def _load_data(filepath):
     with open(filepath, 'r') as fin:
         fin.readline()
         for line in fin:
-            row = np.zeros(1+2+category_cnt+lang_cnt+1)
-            vid, publish, duration, definition, category, detect_lang, _, _, _, _, _, re30, _ = line.rstrip().split('\t', 12)
+            row = np.zeros(1 + 1 + category_cnt + lang_cnt + 1)
+            vid, publish, duration, definition, category, detect_lang, _, _, _, _, wp30, re30, _ = line.rstrip().split('\t', 12)
             vids.append(vid)
             row[0] = np.log10(int(duration))
             if definition == '1':
                 row[1] = 1
             if category in category_dict:
-                row[2+category_dict[category]] = 1
+                row[2 + category_dict[category]] = 1
             if detect_lang in lang_dict:
-                row[2+category_cnt+lang_dict[detect_lang]] = 1
-            row[-1] = float(re30)
+                row[2 + category_cnt + lang_dict[detect_lang]] = 1
+            target = [wp30, re30][is_re]
+            row[-1] = float(target)
             matrix.append(row)
     return matrix, vids
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    print('>>> Start to predict relative engagement with video context...')
     start_time = time.time()
 
     category_dict = {'1': 0, '2': 1, '10': 2, '15': 3, '17': 4, '19': 5, '20': 6, '22': 7, '23': 8, '24': 9,
@@ -59,18 +64,39 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file dir of formatted dataset', required=True)
     parser.add_argument('-o', '--output', help='output file dir of predictor result', required=True)
+    parser.add_argument('-f', '--function', help='choose prediction target', required=True)
     args = parser.parse_args()
 
     input_dir = args.input
     output_dir = args.output
+    target = args.function
+
+    if target == 'wp':
+        is_re = False
+        print('>>> Start to predict watch percentage with video context...')
+    elif target == 're':
+        is_re = True
+        print('>>> Start to predict relative engagement with video context...')
+    else:
+        print('>>> Error: Unknown prediction target! It mush be wp or re!')
+        print('>>> Exit...')
+        print(sys.exit(1))
+
     train_loc = os.path.join(input_dir, 'train_data')
     test_loc = os.path.join(input_dir, 'test_data')
+    if not (os.path.exists(train_loc) and os.path.exists(test_loc)):
+        print('>>> Error: Did not find train or test dataset!')
+        print('>>> Exit...')
+        print(sys.exit(1))
 
+    os.makedirs(output_dir, exist_ok=True)
+
+    # == == == == == == == == Part 3: Start training == == == == == == == == #
     print('>>> Start to load training dataset...')
     train_matrix = []
     for subdir, _, files in os.walk(train_loc):
         for f in files:
-            train_matrix.extend(_load_data(os.path.join(subdir, f))[0])
+            train_matrix.extend(_load_data(os.path.join(subdir, f), is_re)[0])
     train_matrix = np.array(train_matrix)
 
     print('>>> Start to load test dataset...')
@@ -78,7 +104,7 @@ if __name__ == '__main__':
     test_vids = []
     for subdir, _, files in os.walk(test_loc):
         for f in files:
-            matrix, vids = _load_data(os.path.join(subdir, f))
+            matrix, vids = _load_data(os.path.join(subdir, f), is_re)
             test_matrix.extend(matrix)
             test_vids.extend(vids)
     test_matrix = np.array(test_matrix)
@@ -97,4 +123,5 @@ if __name__ == '__main__':
     if to_write:
         print('>>> Prepare to write to pickle file...')
         print('>>> Number of videos in final test result dict: {0}'.format(len(predict_result_dict)))
-        write_dict_to_pickle(dict=predict_result_dict, path=os.path.join(output_dir, 'context_predictor.p'))
+        write_dict_to_pickle(dict=predict_result_dict,
+                             path=os.path.join(output_dir, '{0}_context_predictor.p'.format(['wp', 're'][is_re])))
