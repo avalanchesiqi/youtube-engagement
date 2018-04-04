@@ -93,14 +93,14 @@ if __name__ == '__main__':
     split_keys = np.array(engagement_map['duration'])
 
     # load pandas dataframe if exists
-    re_dataframe_path = '../engagement_prediction/re_predictors/output/predicted_re_sparse_df.csv'
+    re_dataframe_path = '../engagement_prediction/output/predicted_re_df.csv'
     if os.path.exists(re_dataframe_path):
         re_data_f = pd.read_csv(re_dataframe_path, sep='\t')
     else:
         print('Relative engagement dataframe not found!')
         sys.exit(1)
 
-    wp_dataframe_path = '../engagement_prediction/wp_predictors/output/predicted_wp_sparse_df.csv'
+    wp_dataframe_path = '../engagement_prediction/output/predicted_wp_df.csv'
     if os.path.exists(wp_dataframe_path):
         wp_data_f = pd.read_csv(wp_dataframe_path, sep='\t')
     else:

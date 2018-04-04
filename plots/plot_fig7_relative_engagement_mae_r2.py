@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     # load pandas dataframe if exists
-    dataframe_path = '../engagement_prediction/re_predictors/output/predicted_re_sparse_df.csv'
+    dataframe_path = '../engagement_prediction/output/predicted_re_df.csv'
     if os.path.exists(dataframe_path):
         data_f = pd.read_csv(dataframe_path, sep='\t')
     else:

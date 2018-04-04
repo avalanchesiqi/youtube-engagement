@@ -9,7 +9,7 @@ Time: ~20M
 
 Target: predict relative engagement
 Usage: python channel_specific_predictor.py -i ./ -o ./output -f re
-Time: ~20M
+Time: ~25M
 """
 
 import os, sys, time, datetime, argparse, pickle

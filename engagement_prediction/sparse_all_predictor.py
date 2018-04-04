@@ -5,11 +5,11 @@
 
 Target: predict watch percentage
 Usage: python sparse_all_predictor.py -i ./ -o ./output -f wp
-Time: ~2H
+Time: ~3H30M
 
 Target: predict relative engagement
 Usage: python sparse_all_predictor.py -i ./ -o ./output -f re
-Time: ~2H
+Time: ~3H30M
 """
 
 import os, sys, time, datetime, argparse

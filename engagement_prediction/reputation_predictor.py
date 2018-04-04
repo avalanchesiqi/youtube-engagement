@@ -5,11 +5,11 @@
 
 Target: predict watch percentage
 Usage: python reputation_predictor.py -i ./ -o ./output -f wp
-Time: ~30M
+Time: ~50M
 
 Target: predict relative engagement
 Usage: python reputation_predictor.py -i ./ -o ./output -f re
-Time: ~30M
+Time: ~50M
 """
 
 import os, sys, time, datetime, argparse

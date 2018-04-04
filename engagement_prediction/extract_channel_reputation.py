@@ -5,11 +5,11 @@
 
 Target: extract watch percentage
 Usage: python extract_channel_reputation.py -i ./ -o ./output/train_channel_watch_percentage.txt -f wp
-Time: ~3M
+Time: ~1M
 
 Target: extract relative engagement
 Usage: python extract_channel_reputation.py -i ./ -o ./output/train_channel_relative_engagement.txt -f re
-Time: ~3M
+Time: ~1M
 """
 
 import sys, os, time, datetime, argparse
