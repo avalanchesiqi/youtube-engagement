@@ -68,7 +68,7 @@ if __name__ == '__main__':
         channel_reputation_predictor_path = os.path.join(input_dir, '{0}_reputation_predictor.p'.format(['wp', 're'][is_re]))
         all_predictor_path = os.path.join(input_dir, '{0}_sparse_all_predictor.p'.format(['wp', 're'][is_re]))
         channel_specific_predictor_path = os.path.join(input_dir, '{0}_csp_predictor_5.p'.format(['wp', 're'][is_re]))
-        test_duration_path = os.path.join(input_dir, '{0}_test_duration.p'.format(['wp', 're'][is_re]))
+        test_duration_path = os.path.join(input_dir, 'test_duration.p')
 
         # ground-truth values
         true_dict = pickle.load(open(true_dict_path, 'rb'))

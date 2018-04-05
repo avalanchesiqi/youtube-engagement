@@ -26,6 +26,7 @@ if __name__ == '__main__':
     start_time = time.time()
 
     test_vids = []
+    test_duration = []
     true_engagement = []
     guess_engagement = []
 
@@ -77,6 +78,7 @@ if __name__ == '__main__':
                     vid, _, duration, _, _, _, _, _, _, _, wp30, re30, _ = line.rstrip().split('\t', 12)
                     test_vids.append(vid)
                     duration = int(duration)
+                    test_duration.append(duration)
                     target = float([wp30, re30][is_re])
                     true_engagement.append(target)
                     random_guess = 0.5
@@ -97,6 +99,7 @@ if __name__ == '__main__':
     to_write = True
     true_result_dict = {vid: true for vid, true in zip(test_vids, true_engagement)}
     predict_result_dict = {vid: pred for vid, pred in zip(test_vids, guess_engagement)}
+    test_duration_dict = {vid: duration for vid, duration in zip(test_vids, test_duration)}
     if to_write:
         print('>>> Prepare to write to pickle file...')
         print('>>> Number of videos in final test result dict: {0}'.format(len(test_vids)))
@@ -104,3 +107,6 @@ if __name__ == '__main__':
                              path=os.path.join(output_dir, '{0}_true_predictor.p'.format(['wp', 're'][is_re])))
         write_dict_to_pickle(dict=predict_result_dict,
                              path=os.path.join(output_dir, '{0}_duration_predictor.p'.format(['wp', 're'][is_re])))
+        if not os.path.exists(os.path.join(output_dir, 'test_duration.p')):
+            write_dict_to_pickle(dict=test_duration_dict, path=os.path.join(output_dir, 'test_duration.p'))
+
