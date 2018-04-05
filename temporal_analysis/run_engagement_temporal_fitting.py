@@ -3,7 +3,7 @@
 
 """ Scripts to run relative engagement temporal fitting.
 
-Usage: python run_engagement_temporal_fitting.py -i ./sliding_engagement_dynamics.csv
+Usage: python run_engagement_temporal_fitting.py -i ./sliding_engagement_dynamics.csv -o ./sliding_fitting_results.csv
 Time: ~40M
 """
 
@@ -45,10 +45,12 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='input file path of sliding window relative engagement dynamics', required=True)
+    parser.add_argument('-o', '--output', help='output file path of sliding window fitting results', required=True)
     args = parser.parse_args()
 
     input_path = args.input
-    fitting_output = open('./sliding_fitting_results.csv', 'w')
+    output_path = args.output
+    fitting_output = open(output_path, 'w')
     fitting_output.write('Vid,Err_Powerlaw,Err_linear,Err_constant\n')
 
     with open(input_path, 'r') as fin:

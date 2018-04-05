@@ -4,11 +4,21 @@ We release the code and data for the following paper.
 If you use these datasets, or refer to its results, please cite:
 > Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) \]
 
-## Software
-These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
+## Code usage
+We provide three quickstart bash scripts:
+1. [run_all_wrangling.sh](/wrangling/run_all_wrangling.sh)
+2. [run_all_temporal_analysis.sh](/temporal_analysis/run_all_temporal_analysis.sh)
+3. [run_all_predictors.sh](/engagement_prediction/run_all_predictors.sh)
+
+Download and place data in the [data](/data) directory, uncompress them then run the three scripts above consecutively.
+Detailed usage and running time are documented in the corresponding python script.
+Plotting scripts to generate figures in the paper are in the [plots](/plots) directory.
 
 ## Python packages version
 All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplotlib 2.1 and SciPy 0.19.
+
+## Data collection tool
+These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
 The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).

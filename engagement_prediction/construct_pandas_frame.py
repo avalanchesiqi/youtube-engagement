@@ -49,10 +49,10 @@ if __name__ == '__main__':
 
     if target == 'wp':
         is_re = False
-        print('>>> Start to predict watch percentage with video context...')
+        print('>>> Start to build pandas dataframe for watch percentage...')
     elif target == 're':
         is_re = True
-        print('>>> Start to predict relative engagement with video context...')
+        print('>>> Start to build pandas dataframe for relative engagement...')
     else:
         print('>>> Error: Unknown prediction target! It mush be wp or re!')
         print('>>> Exit...')

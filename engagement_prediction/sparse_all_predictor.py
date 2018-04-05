@@ -166,10 +166,10 @@ if __name__ == '__main__':
 
     if target == 'wp':
         is_re = False
-        print('>>> Start to predict watch percentage with freebase topics in sparse matrix...')
+        print('>>> Start to predict watch percentage with all features in sparse matrix...')
     elif target == 're':
         is_re = True
-        print('>>> Start to predict relative engagement with freebase topics in sparse matrix...')
+        print('>>> Start to predict relative engagement with all features in sparse matrix...')
     else:
         print('>>> Error: Unknown prediction target! It mush be wp or re!')
         print('>>> Exit...')
