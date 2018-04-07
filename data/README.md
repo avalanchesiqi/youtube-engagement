@@ -113,3 +113,4 @@ Each line is a YouTube video in `json` format, an example is shown below.
 ### topicDetails field
 `topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dump](https://developers.google.com/freebase/).
 We provide extracted mapping results in `freebase_mid_type_name.csv`.
+Our parser is inspired by the [Freebase-to-Wikipedia](https://github.com/saleiro/Freebase-to-Wikipedia) project.

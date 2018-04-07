@@ -14,6 +14,9 @@ Download and place data in the [data](/data) directory, uncompress them then run
 Detailed usage and running time are documented in the corresponding python script.
 Plotting scripts to generate figures in the paper are in the [plots](/plots) directory.
 
+Note the datasets are large, so the quickstart scripts will take up to 24 hours to finish.
+Check the estimated running time in each python script before you run the quickstart scripts.
+
 ## Python packages version
 All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplotlib 2.1 and SciPy 0.19.
 
@@ -126,3 +129,4 @@ Each line is a YouTube video in `json` format, an example is shown below.
 ### topicDetails field
 `topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dump](https://developers.google.com/freebase/).
 We provide extracted mapping results in `freebase_mid_type_name.csv`.
+Our parser is inspired by the [Freebase-to-Wikipedia](https://github.com/saleiro/Freebase-to-Wikipedia) project.
