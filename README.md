@@ -1,8 +1,9 @@
+
 # Code and Data for YouTube Engagement Study
 
 We release the code and data for the following paper.
 If you use these datasets, or refer to its results, please cite:
-> Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) \]
+> Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
 
 ## Code usage
 We provide three quickstart bash scripts:
@@ -10,7 +11,8 @@ We provide three quickstart bash scripts:
 2. [run_all_temporal_analysis.sh](/temporal_analysis/run_all_temporal_analysis.sh)
 3. [run_all_predictors.sh](/engagement_prediction/run_all_predictors.sh)
 
-Download and place data in the [data](/data) directory, uncompress them then run the three scripts above consecutively.
+Download and place data in the [data](/data) directory, then uncompress them.
+First run `run_all_wrangling.sh` to create formatted data, then run `run_all_temporal_analysis.sh` to do the temporal analysis or `run_all_predictors.sh` to reproduce the prediction tasks.
 Detailed usage and running time are documented in the corresponding python script.
 Plotting scripts to generate figures in the paper are in the [plots](/plots) directory.
 
@@ -21,7 +23,7 @@ Check the estimated running time in each python script before you run the quicks
 All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplotlib 2.1 and SciPy 0.19.
 
 ## Data collection tool
-These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
+These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/avalanchesiqi/youtube-insight).
 
 ## Data
 The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
@@ -60,7 +62,7 @@ The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZw
 All files are compressed in `tar.bz2`.
 Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
 Tweeted videos and Quality videos datasets are in `json` format.
-`freebase_mid_type_name.csv` contains 46,570,472 relational mapping of Freebase topic mid, topic type and human-readable topic name.
+`freebase_mid_type_name.csv` contains 43,801,283 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 
 Dataset | Uncompressed | Compressed | #Videos | #Channels
 --- | --- | --- | --- | ---
@@ -69,7 +71,7 @@ Quality videos | 1.9GB | 359MB | 96,397 | 8,823
 Vevo videos | 1.4GB | - | 67,649 | 8,685
 Billboard16 videos | 1.1MB | - | 63 | 47
 Top news videos | 469MB | - | 28,685 | 91
-freebase_mid_type_name | 2.5GB | 636MB | - | - |
+freebase_mid_type_name | 2.3GB | 604MB | - | - |
 
 ### Tweeted videos dataset
 This dataset contains YouTube videos published between July 1st and August 31st, 2016.

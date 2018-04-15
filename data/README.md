@@ -44,7 +44,7 @@ The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZw
 All files are compressed in `tar.bz2`.
 Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
 Tweeted videos and Quality videos datasets are in `json` format.
-`freebase_mid_type_name.csv` contains 46,570,472 relational mapping of Freebase topic mid, topic type and human-readable topic name.
+`freebase_mid_type_name.csv` contains 43,801,283 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 
 Dataset | Uncompressed | Compressed | #Videos | #Channels
 --- | --- | --- | --- | ---
@@ -53,7 +53,7 @@ Quality videos | 1.9GB | 359MB | 96,397 | 8,823
 Vevo videos | 1.4GB | - | 67,649 | 8,685
 Billboard16 videos | 1.1MB | - | 63 | 47
 Top news videos | 469MB | - | 28,685 | 91
-freebase_mid_type_name | 2.5GB | 636MB | - | - |
+freebase_mid_type_name | 2.3GB | 604MB | - | - |
 
 ### Tweeted videos dataset
 This dataset contains YouTube videos published between July 1st and August 31st, 2016.
