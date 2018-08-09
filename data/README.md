@@ -2,7 +2,7 @@
 
 These datasets are first used in the following paper.
 If you use these datasets, or refer to its results, please cite:
-> Siqi Wu, [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) | [code](https://github.com/avalanchesiqi/youtube-engagement) | [data](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing) \]
+> [Siqi Wu](https://avalanchesiqi.github.io/), [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) | [code](https://github.com/avalanchesiqi/youtube-engagement) | [data](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing) \]
 
 ## Data collection tool
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
@@ -109,6 +109,7 @@ Each line is a YouTube video in `json` format, an example is shown below.
 
 ### detectLang field
 `detectLang` is the result from [langdetect 1.0.7](https://pypi.python.org/pypi/langdetect?), 'NA' if no result returns.
+Note in the latest version of [youtube-insight](https://github.com/avalanchesiqi/youtube-insight), we changed to [googletrans 2.3.0](https://pypi.org/project/googletrans/).
 
 ### topicDetails field
 `topicIds` and `relevantTopicIds` are resolved to entity name via the latest [Freebase data dump](https://developers.google.com/freebase/).
