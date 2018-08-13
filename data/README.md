@@ -8,7 +8,8 @@ If you use these datasets, or refer to its results, please cite:
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
-The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
+The data is hosted on Google Drive. Note published dataset is temporarily taken down, will resume after 2 weeks.
+For usage during this period, please email me.
   
   ```
   data
