@@ -26,8 +26,7 @@ All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplot
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/avalanchesiqi/youtube-insight).
 
 ## Data
-The data is hosted on Google Drive. Note published dataset is temporarily taken down, will resume after 2 weeks.
-For usage during this period, please email me.
+The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
   
   ```
   data
