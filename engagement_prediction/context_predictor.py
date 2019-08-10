@@ -12,11 +12,11 @@ Usage: python context_predictor.py -i ./ -o ./output -f re
 Time: ~5M
 """
 
-import os, sys, time, datetime, argparse
+import os, sys, argparse
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import write_dict_to_pickle
+from utils.helper import Timer, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
@@ -47,7 +47,8 @@ def _load_data(filepath, is_re):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     category_dict = {'1': 0, '2': 1, '10': 2, '15': 3, '17': 4, '19': 5, '20': 6, '22': 7, '23': 8, '24': 9,
                      '25': 10, '26': 11, '27': 12, '28': 13, '29': 14, '30': 15, '43': 16}
@@ -114,8 +115,7 @@ if __name__ == '__main__':
     # predict test data from customized ridge regressor
     test_yhat = RidgeRegressor(train_matrix, test_matrix).predict()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True

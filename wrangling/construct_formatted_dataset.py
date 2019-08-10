@@ -15,12 +15,12 @@ Time: ~2M
 """
 
 import os, sys
-import argparse, json, isodate, time
-from datetime import datetime, timedelta
+import argparse, json, isodate
+from datetime import datetime
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import read_as_float_array, read_as_int_array, strify
+from utils.helper import Timer, read_as_float_array, read_as_int_array, strify
 
 
 def extract_info(input_path, output_path, truncated=None):
@@ -93,7 +93,9 @@ if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     # setting parameters
     print('>>> Start to convert video raw json file to formatted text file...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     age = 120
 
     parser = argparse.ArgumentParser()
@@ -122,5 +124,4 @@ if __name__ == '__main__':
             print('>>> Start to reformat file {0}...'.format(os.path.join(subdir, f)))
             extract_info(os.path.join(subdir, f), os.path.join(output_dir, f[:-4]+'txt'), truncated=age)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

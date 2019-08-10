@@ -8,18 +8,18 @@ Usage: python plot_fig8_relative_engagement_effect.py
 Time: ~1M
 """
 
-import sys, os, time, datetime, pickle
+import sys, os, pickle, platform
 import numpy as np
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 from utils.converter import to_watch_percentage
-
-
-def exponent(x, pos):
-    """ The two args are the value and tick position. """
-    return '{0:.0f}'.format(x)
 
 
 def build_reputation_features(arr):
@@ -37,7 +37,8 @@ def predict(duration, reputation_features, params):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot plausible effect of predicting via relative engagement...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     channel_id = 'UCy-taFzDCV-XcpTBa3pF68w'
     channel_title = 'PBABowling'
@@ -106,16 +107,15 @@ if __name__ == '__main__':
 
     ax1.set_ylim([0, 1.05])
     ax1.set_xscale('log')
-    ax1.xaxis.set_major_formatter(FuncFormatter(exponent))
     ax1.set_xlabel('video duration (sec) $D$', fontsize=14)
     ax1.tick_params(axis='both', which='major', labelsize=12)
     ax1.yaxis.set_ticks_position('left')
     ax1.xaxis.set_ticks_position('bottom')
     ax1.legend(loc='lower left', fontsize=14, frameon=False)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout()
     plt.savefig('../images/fig8_relative_engagement_effect.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

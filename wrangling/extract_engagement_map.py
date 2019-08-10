@@ -8,9 +8,12 @@ Usage: python extract_engagement_map.py -i ../data/formatted_tweeted_videos -o .
 Time: ~8M
 """
 
-import sys, os, time, datetime, pickle, argparse
+import sys, os, pickle, argparse
 import numpy as np
 from collections import defaultdict
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 def get_engagement_stats_from_file(filepath):
@@ -27,7 +30,8 @@ def get_engagement_stats_from_file(filepath):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract engagement map...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     bin_number = 1000
     duration_engagement_tuple = []
@@ -91,5 +95,4 @@ if __name__ == '__main__':
         engagement_map[i] = [np.percentile(wp_bin_matrix[i], j / 10) for j in range(1000)]
     pickle.dump(engagement_map, open('../data/engagement_map.p', 'wb'))
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

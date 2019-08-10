@@ -12,12 +12,12 @@ Usage: python reputation_predictor.py -i ./ -o ./output -f re
 Time: ~50M
 """
 
-import os, sys, time, datetime, argparse
+import os, sys, argparse
 from collections import defaultdict
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import write_dict_to_pickle
+from utils.helper import Timer, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
@@ -52,7 +52,8 @@ def _load_data(filepath, is_re):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     parser = argparse.ArgumentParser()
@@ -119,8 +120,7 @@ if __name__ == '__main__':
     # predict test data from customized ridge regressor
     test_yhat = RidgeRegressor(train_matrix, test_matrix).predict(show_params=True)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True

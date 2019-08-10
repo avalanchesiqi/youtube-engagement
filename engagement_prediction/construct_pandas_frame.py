@@ -28,13 +28,17 @@ Usage: python construct_pandas_frame.py -i ./output -o ./output/predicted_re_df.
 Time: ~5M
 """
 
-import sys, os, time, datetime, pickle, argparse
+import sys, os, pickle, argparse
 import pandas as pd
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     parser = argparse.ArgumentParser()
@@ -143,5 +147,4 @@ if __name__ == '__main__':
         print('header:')
         print(data_f.head())
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

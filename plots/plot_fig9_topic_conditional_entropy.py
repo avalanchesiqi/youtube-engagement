@@ -16,17 +16,20 @@ Usage: python plot_fig9_topic_conditional_entropy.py
 Time: ~7M
 """
 
-import os, sys, time, datetime, operator
+import os, sys, operator, platform
 from collections import defaultdict
 import numpy as np
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.ticker import FuncFormatter
 
-
-def exponent(x, pos):
-    """ The two args are the value and tick position. """
-    return '{0:.0f}'.format(x)
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 def rescale(x, pos):
@@ -75,7 +78,8 @@ def _load_data(filepath):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot conditional entropy for frequent topics...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     bin_gap = 0.05
     bin_num = int(1 / bin_gap)
@@ -166,7 +170,6 @@ if __name__ == '__main__':
         plt.text(type_conditional_entropy_dict['obamabase'][0], type_conditional_entropy_dict['obamabase'][1], 'obama', size=16, ha='left', va='bottom')
 
         plt.xscale('log')
-        plt.gca().xaxis.set_major_formatter(FuncFormatter(exponent))
         plt.ylim(ymax=-np.sum([p * safe_log2(p) for p in [bin_gap]*bin_num]))
         plt.ylim(ymin=3.88)
         plt.tick_params(axis='both', which='major', labelsize=14)
@@ -203,9 +206,9 @@ if __name__ == '__main__':
         ax2.spines['top'].set_visible(False)
         ax2.legend(loc='upper right', fontsize=12, frameon=False)
 
-        # get running time
-        print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+        timer.stop()
 
         plt.tight_layout()
         plt.savefig('../images/fig9_topics_conditional_entropy.pdf', bbox_inches='tight')
-        plt.show()
+        if not platform.system() == 'Linux':
+            plt.show()

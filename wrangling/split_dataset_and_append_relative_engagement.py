@@ -9,9 +9,10 @@ Usage: python split_dataset_and_append_relative_engagement.py -i ../data/formatt
 Time: ~15M
 """
 
-import os, sys, time, datetime, pickle, argparse
+import os, sys, pickle, argparse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 from utils.converter import to_relative_engagement
 
 
@@ -53,7 +54,8 @@ if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     # setting parameters
     print('>>> Start to append relative engagement and split to train/test dataset...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     engagement_map_path = '../data/engagement_map.p'
@@ -84,5 +86,4 @@ if __name__ == '__main__':
             extract_info(os.path.join(subdir, f), output_dir)
     print('>>> Finish extracting all files!')
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

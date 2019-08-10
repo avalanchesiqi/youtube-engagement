@@ -12,12 +12,16 @@ Usage: python extract_channel_reputation.py -i ./ -o ./output/train_channel_rela
 Time: ~1M
 """
 
-import sys, os, time, datetime, argparse
+import sys, os, argparse
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     parser = argparse.ArgumentParser()
@@ -58,5 +62,4 @@ if __name__ == '__main__':
                     output_data.write('{0}\t{1}\n'.format(channel_id, target))
     output_data.close()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

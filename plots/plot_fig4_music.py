@@ -7,21 +7,22 @@ Usage: python plot_fig4_music.py
 Time: ~1M
 """
 
-import os, time, datetime
+import os, sys, platform
 import numpy as np
 from collections import defaultdict
 from scipy.stats import gaussian_kde
-import matplotlib as mpl
-from matplotlib import gridspec
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
 
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
 mpl.rcParams['lines.linewidth'] = 1
 
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+from matplotlib.ticker import FuncFormatter
 
-def exponent(x, pos):
-    """ The two args are the value and tick position. """
-    return '%1.0f' % (10 ** x)
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer, exponent_fmt
 
 
 def get_duration_wp_from_file(filepath, duration_wp_tuple, duration_stats_dict):
@@ -102,7 +103,8 @@ def loading_data(input_loc, bin_number, min_bin):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract engagement map for music and plot...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     xmin, xmax = 1, 5
     ymin, ymax = 0, 1
@@ -152,8 +154,7 @@ if __name__ == '__main__':
         ax1.scatter([np.log10(x[0]) for x in quality_tuple2], [x[1] for x in quality_tuple2], marker='x', c='k', zorder=30)
 
         ax1.set_xticks([1, 2, 3, 4, 5])
-        x_formatter = FuncFormatter(exponent)
-        ax1.xaxis.set_major_formatter(x_formatter)
+        ax1.xaxis.set_major_formatter(FuncFormatter(exponent_fmt))
         ax1.set_xlim([xmin, xmax])
         ax1.set_ylim([ymin, ymax])
         ax1.set_xlabel('video duration (sec) '+r'$D$', fontsize=24)
@@ -205,7 +206,7 @@ if __name__ == '__main__':
         axt.set_title('(a)', fontsize=32)
         plt.subplots_adjust(left=0.13, bottom=0.08, right=0.99, top=0.96, wspace=0.03, hspace=0.03)
         plt.savefig('../images/fig4_music_emap.pdf', bbox_inches='tight')
-        plt.show()
+        if not platform.system() == 'Linux':
+            plt.show()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

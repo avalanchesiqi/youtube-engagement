@@ -12,13 +12,13 @@ Usage: python sparse_all_predictor.py -i ./ -o ./output -f re
 Time: ~3H30M
 """
 
-import os, sys, time, datetime, argparse
+import os, sys, argparse
 from collections import defaultdict
 import numpy as np
 from scipy.sparse import coo_matrix
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import strify, write_dict_to_pickle
+from utils.helper import Timer, strify, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
@@ -138,8 +138,9 @@ def vectorize_test_data(data, topic_dict):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    print('>>> Start to predict watch percentage with all features in sparse matrix...')
-    start_time = time.time()
+    print('>>> Start to predict engagement metrics with all features in sparse matrix...')
+    timer = Timer()
+    timer.start()
 
     category_dict = {'1': 0, '2': 1, '10': 2, '15': 3, '17': 4, '19': 5, '20': 6, '22': 7, '23': 8, '24': 9,
                      '25': 10, '26': 11, '27': 12, '28': 13, '29': 14, '30': 15, '43': 16}
@@ -214,8 +215,7 @@ if __name__ == '__main__':
     test_yhat, test_vids = RidgeRegressor(train_matrix, test_matrix).predict_from_sparse(vectorize_train_data,
                                                                                          vectorize_test_data)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True

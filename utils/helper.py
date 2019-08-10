@@ -1,7 +1,17 @@
-""" Converter for watch percentage and relative engagement. """
-
-import os, pickle
+import os, pickle, time
+from datetime import timedelta
 import numpy as np
+
+
+class Timer:
+    def __init__(self):
+        self.start_time = None
+
+    def start(self):
+        self.start_time = time.time()
+
+    def stop(self):
+        print('>>> Elapsed time: {0}\n'.format(str(timedelta(seconds=time.time() - self.start_time))[:-3]))
 
 
 def read_as_int_array(content, truncated=None, delimiter=None):
@@ -49,3 +59,8 @@ def write_dict_to_pickle(dict, path):
     if not (folder_path == '' or os.path.exists(folder_path)):
         os.makedirs(folder_path)
     pickle.dump(dict, open(path, 'wb'))
+
+
+def exponent_fmt(x, pos):
+    """ The two args are the value and tick position. """
+    return '{0:.0f}'.format(10 ** x)

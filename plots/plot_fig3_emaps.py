@@ -7,21 +7,22 @@ Usage: python plot_fig3_emaps.py
 Time: ~8M
 """
 
-import os, time, datetime
+import os, sys, platform
 import numpy as np
 from collections import defaultdict
 from scipy.stats import gaussian_kde
+
 import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+mpl.rcParams['lines.linewidth'] = 1
+
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from matplotlib.ticker import FuncFormatter
 
-mpl.rcParams['lines.linewidth'] = 1
-
-
-def exponent(x, pos):
-    """ The two args are the value and tick position. """
-    return '%1.0f' % (10 ** x)
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer, exponent_fmt
 
 
 def get_engagement_stats_from_file(filepath):
@@ -57,7 +58,8 @@ def plot_contour(x_axis_value, color='r', fsize=14, title=False):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot engagement map of TWEETED VIDEOS dataset...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     bin_number = 1000
     duration_engagement_tuple = []
@@ -109,7 +111,6 @@ if __name__ == '__main__':
 
     # == == == == == == == == Part 4: Plot engagement map == == == == == == == == #
     cornflower_blue = '#6495ed'
-    exp_formatter = FuncFormatter(exponent)
     to_plot_engagement_map = True
     if to_plot_engagement_map:
         gs = gridspec.GridSpec(2, 2, width_ratios=[8, 1], height_ratios=[1, 8])
@@ -131,7 +132,7 @@ if __name__ == '__main__':
         ax1.plot(x_axis, [np.percentile(x, 50) for x in wp_bin_matrix[:-1]], color=cornflower_blue, alpha=1, zorder=15)
 
         ax1.set_xticks([1, 2, 3, 4, 5])
-        ax1.xaxis.set_major_formatter(exp_formatter)
+        ax1.xaxis.set_major_formatter(FuncFormatter(exponent_fmt))
         ax1.set_xlim([1, 5])
         ax1.set_ylim([0, 1])
         ax1.set_xlabel('video duration (sec) ' + r'$D$', fontsize=24)
@@ -181,7 +182,8 @@ if __name__ == '__main__':
         axt.set_title('(b)', fontsize=32)
         plt.subplots_adjust(left=0.13, bottom=0.08, right=0.99, top=0.96, wspace=0.03, hspace=0.03)
         plt.savefig('../images/fig3_emap_wp.pdf', bbox_inches='tight')
-        plt.show()
+        if not platform.system() == 'Linux':
+            plt.show()
 
     # == == == == == == == == Part 5: Plot duration watch time map == == == == == == == == #
     sea_green = '#2e8b57'
@@ -205,8 +207,8 @@ if __name__ == '__main__':
         ax1.plot(x_axis, [np.percentile(x, 50) for x in wt_bin_matrix[:-1]], color=sea_green, alpha=1, zorder=15)
 
         ax1.set_xticks([1, 2, 3, 4, 5])
-        ax1.xaxis.set_major_formatter(exp_formatter)
-        ax1.yaxis.set_major_formatter(exp_formatter)
+        ax1.xaxis.set_major_formatter(FuncFormatter(exponent_fmt))
+        ax1.yaxis.set_major_formatter(FuncFormatter(exponent_fmt))
         ax1.set_xlim([1, 5])
         ax1.set_ylim([1, 5])
         ax1.set_xlabel('video duration (sec) ' + r'$D$', fontsize=24)
@@ -256,7 +258,7 @@ if __name__ == '__main__':
         axt.set_title('(a)', fontsize=32)
         plt.subplots_adjust(left=0.13, bottom=0.08, right=0.99, top=0.96, wspace=0.03, hspace=0.03)
         plt.savefig('../images/fig3_emap_wt.pdf', bbox_inches='tight')
-        plt.show()
+        if not platform.system() == 'Linux':
+            plt.show()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

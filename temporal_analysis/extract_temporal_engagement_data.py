@@ -7,11 +7,11 @@ Usage: python extract_temporal_engagement_data.py -i ../data/formatted_tweeted_v
 Time: ~1H
 """
 
-import os, sys, time, datetime, argparse
+import os, sys, argparse
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import read_as_int_array, read_as_float_array
+from utils.helper import Timer, read_as_int_array, read_as_float_array
 
 
 def extract_engagement_data_from_file(filepath, age, handles, threshold=100):
@@ -37,7 +37,9 @@ def extract_engagement_data_from_file(filepath, age, handles, threshold=100):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract temporal engagement data...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     age_range = 30
     view_threshold = 100
 
@@ -75,5 +77,4 @@ if __name__ == '__main__':
     for handle in output_handles:
         handle.close()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

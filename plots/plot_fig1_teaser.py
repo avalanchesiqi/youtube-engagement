@@ -10,15 +10,24 @@ Usage: python plot_fig1_teaser.py
 Time: ~2M
 """
 
-import os, time, datetime
+import os, sys, platform
 from collections import defaultdict
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract information about selected channels...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     channel_ids = ['UC0aCRHZm9xOCvFoxWAmgS2w', 'UCp0hYYBW6IMayGgR-WeoCvQ', 'UCHn2-DNS5t4tEXqBK5bHmTQ']
     labels = ['Blunt Force Truth', 'TheEllenShow', 'KEEMI']
@@ -60,9 +69,9 @@ if __name__ == '__main__':
     ax1.tick_params(axis='both', which='major', labelsize=16)
     ax1.legend(loc='lower left', fontsize=16, scatterpoints=2, frameon=False)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout()
     plt.savefig('../images/fig1_teaser.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

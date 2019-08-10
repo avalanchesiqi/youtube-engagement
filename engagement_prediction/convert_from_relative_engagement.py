@@ -12,19 +12,21 @@ Example rows
 4  wjdjztvb9Hc    0.988         0.5    0.523769    0.635107    0.515533    0.994331     0.489899    0.489899        160
 """
 
-import os, sys, time, datetime, pickle
+import os, sys, pickle
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 from utils.converter import to_watch_percentage
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to convert predicted relative engagement results from watch percentage results...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     engagement_map_loc = '../data/engagement_map.p'
     if not os.path.exists(engagement_map_loc):
@@ -66,5 +68,4 @@ if __name__ == '__main__':
         print('\n>>> {2} MAE scores for wp and converted wp: {0} - {1}'.format(mae_list[2*i], mae_list[2*i+1], name_list[i]))
         print('>>> {2} R2  scores for wp and converted wp: {0} - {1}'.format(r2_list[2*i], r2_list[2*i+1], name_list[i]))
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

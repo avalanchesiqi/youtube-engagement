@@ -12,17 +12,19 @@ Usage: python channel_specific_predictor.py -i ./ -o ./output -f re
 Time: ~25M
 """
 
-import os, sys, time, datetime, argparse, pickle
+import os, sys, argparse, pickle
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import write_dict_to_pickle
+from utils.helper import Timer, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     predict_result_dict = {}
     # for one channel, minimal videos in training dataset so the predictor can be built
     k = 5
@@ -143,8 +145,7 @@ if __name__ == '__main__':
 
                     predict_result_dict.update({vid: pred for vid, pred in zip(test_vids, test_yhat)})
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True

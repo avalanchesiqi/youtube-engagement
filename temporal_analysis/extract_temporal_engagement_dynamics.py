@@ -9,12 +9,12 @@ Time: ~15H
 """
 
 
-import os, sys, time, datetime, pickle, argparse
+import os, sys, pickle, argparse
 import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.converter import to_relative_engagement
-from utils.helper import read_as_int_array, read_as_float_array, strify
+from utils.helper import Timer, read_as_int_array, read_as_float_array, strify
 
 
 def extract_engagement_dynamics_from_file(filepath, engagement_map_series, split_key_series, window_size, min_view=100):
@@ -76,7 +76,9 @@ def extract_engagement_dynamics_from_file(filepath, engagement_map_series, split
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract temporal engagement dynamics...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     age_range = 30
     window_size = 7
     min_view = 100
@@ -117,5 +119,4 @@ if __name__ == '__main__':
     cum_output.close()
     sliding_output.close()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

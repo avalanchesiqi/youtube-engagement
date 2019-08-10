@@ -7,14 +7,14 @@ Usage: python run_engagement_temporal_fitting.py -i ./sliding_engagement_dynamic
 Time: ~40M
 """
 
-import sys, os, time, datetime, argparse
+import sys, os, argparse
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 import numpy as np
 from scipy.optimize import curve_fit
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import read_as_int_array, read_as_float_array
+from utils.helper import Timer, read_as_int_array, read_as_float_array
 
 
 def func_powerlaw(x, a, b, c):
@@ -39,7 +39,9 @@ def fit_with_powerlaw(x, y, max_iter=10000):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to fit sliding window temporal engagement dynamics...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     age = 30
     ts = np.arange(1, age + 1).reshape(-1, 1)
 
@@ -78,6 +80,4 @@ if __name__ == '__main__':
 
     fitting_output.close()
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
-
+    timer.stop()

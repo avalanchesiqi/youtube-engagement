@@ -12,12 +12,12 @@ Usage: python sparse_topic_predictor.py -i ./ -o ./output -f re
 Time: ~2H30M
 """
 
-import os, sys, time, datetime, argparse
+import os, sys, argparse
 import numpy as np
 from scipy.sparse import coo_matrix
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import write_dict_to_pickle
+from utils.helper import Timer, write_dict_to_pickle
 from utils.ridge_regressor import RidgeRegressor
 
 
@@ -106,7 +106,9 @@ def vectorize_test_data(data, topic_dict):
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    print('>>> Start to predict engagement metrics with topics features in sparse matrix...')
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     parser = argparse.ArgumentParser()
@@ -158,8 +160,7 @@ if __name__ == '__main__':
     test_yhat, test_vids = RidgeRegressor(train_matrix, test_matrix).predict_from_sparse(vectorize_train_data,
                                                                                          vectorize_test_data)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True

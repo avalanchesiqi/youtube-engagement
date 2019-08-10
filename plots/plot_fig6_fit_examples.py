@@ -9,13 +9,18 @@ Usage: python plot_fig6_fit_examples.py
 Time: ~1M
 """
 
-import os, sys, time, datetime
+import os, sys, platform
 import numpy as np
 from scipy.optimize import curve_fit
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import read_as_float_array, read_as_int_array
+from utils.helper import Timer, read_as_float_array, read_as_int_array
 
 
 def func_powerlaw(x, a, b, c):
@@ -35,7 +40,9 @@ def fit_with_powerlaw(x, y):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot temporal relative engagement fitting for exemplary videos...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     age = 30
     ts = np.arange(1, age + 1)
 
@@ -120,9 +127,9 @@ if __name__ == '__main__':
                fontsize=20, frameon=False, handlelength=1,
                loc='lower center', bbox_to_anchor=(0, -0.35), ncol=3)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout(rect=[0, 0.06, 1, 1], h_pad=0)
     plt.savefig('../images/fig6_fit_examples.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

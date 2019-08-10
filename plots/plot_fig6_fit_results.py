@@ -7,15 +7,24 @@ Usage: python plot_fig6_fit_results.py
 Time: ~1M
 """
 
-import time, datetime
+import os, sys, platform
 import numpy as np
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot fitting error from power law, linear and constant fitting...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     mae_powerlaw = []
     mae_linear = []
@@ -82,9 +91,9 @@ if __name__ == '__main__':
     ax1.tick_params(axis='y', which='major', labelsize=18)
     ax1.set_title('(b)', fontsize=24)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout()
     plt.savefig('../images/fig6_fit_results.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

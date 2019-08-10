@@ -8,21 +8,24 @@ Usage: python plot_fig5_within_channel.py
 Time: ~1M
 """
 
-import os, sys, time, datetime, pickle
+import os, sys, pickle, platform
 import numpy as np
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter
 
-
-def exponent(x, pos):
-    """ The two args are the value and tick position. """
-    return '{0:.0f}'.format(x)
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot engagement metrics within the same channel...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     channel_id = 'UCy-taFzDCV-XcpTBa3pF68w'
     channel_title = 'PBABowling'
@@ -82,16 +85,15 @@ if __name__ == '__main__':
     for ax in [ax1, ax2]:
         ax.set_ylim([0, 1.05])
         ax.set_xscale('log')
-        ax.xaxis.set_major_formatter(FuncFormatter(exponent))
         ax.set_xlabel('video duration (sec) $D$', fontsize=17)
         ax.tick_params(axis='both', which='major', labelsize=14)
         ax.yaxis.set_ticks_position('left')
         ax.xaxis.set_ticks_position('bottom')
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout()
     plt.subplots_adjust(wspace=0.4)
     plt.savefig('../images/fig5_within_channel.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

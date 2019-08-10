@@ -8,9 +8,12 @@ Usage: python extract_temporal_engagement_map.py -i ./temporal_engagement_data -
 Time: ~1H
 """
 
-import sys, os, time, datetime, pickle, argparse
+import sys, os, pickle, argparse
 import numpy as np
 from collections import defaultdict
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 def plot_map_from_file(input_path, output_dir):
@@ -68,7 +71,9 @@ def plot_map_from_file(input_path, output_dir):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract temporal engagement maps...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     bin_number = 1000
 
     parser = argparse.ArgumentParser()
@@ -97,5 +102,4 @@ if __name__ == '__main__':
             plot_map_from_file(os.path.join(subdir, f), output_dir)
     print('>>> Extracted all data!')
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

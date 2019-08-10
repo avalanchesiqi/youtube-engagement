@@ -7,11 +7,19 @@ Usage: python plot_fig7_relative_engagement_mae_r2.py
 Time: ~1M
 """
 
-import sys, os, time, datetime
+import sys, os, platform
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, r2_score
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 def plot_barchart(mae_list, r2_list):
@@ -62,7 +70,8 @@ def plot_barchart(mae_list, r2_list):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot prediction results of relative engagement...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     # == == == == == == == == Part 2: Load dataset == == == == == == == == #
     # load pandas dataframe if exists
@@ -91,9 +100,9 @@ if __name__ == '__main__':
 
     plot_barchart(mae_list, r2_list)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout(rect=[0.01, 0, 1, 0.99])
     plt.savefig('../images/fig7_predict_relative_engagement.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

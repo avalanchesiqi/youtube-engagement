@@ -7,14 +7,19 @@ Usage: python construct_channel_view_dataset.py -i ../engagement_prediction
 Time: ~30M
 """
 
-import os, time, datetime, argparse, string, pickle
+import os, sys, argparse, string, pickle
 from collections import defaultdict
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to extract videos from one channel into one file...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
+
     channel_cluster_handle = string.ascii_letters + string.digits + '-_'
 
     parser = argparse.ArgumentParser()
@@ -48,5 +53,4 @@ if __name__ == '__main__':
             # flush buffer
             pickle.dump(buffer, open(os.path.join(output_loc, 'UC{0}.p'.format(handle)), 'wb'))
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()

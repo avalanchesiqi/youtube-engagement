@@ -12,8 +12,8 @@ We provide three quickstart bash scripts:
 3. [run_all_predictors.sh](/engagement_prediction/run_all_predictors.sh)
 
 Download and place data in the [data](/data) directory, then uncompress them.
-First run `run_all_wrangling.sh` to create formatted data, then run `run_all_temporal_analysis.sh` to do the temporal analysis or `run_all_predictors.sh` to reproduce the prediction tasks.
-Detailed usage and running time are documented in the corresponding python script.
+First run `run_all_wrangling.sh` to create formatted data, then run `run_all_temporal_analysis.sh` to conduct the temporal analysis or `run_all_predictors.sh` to reproduce the results of prediction tasks.
+Detailed usage and running time are documented in the corresponding python scripts.
 Plotting scripts to generate figures in the paper are in the [plots](/plots) directory.
 
 Note the datasets are large, so the quickstart scripts will take up to 24 hours to finish.
@@ -26,7 +26,7 @@ All codes are developed and tested in Python 3.6, along with NumPy 1.13, matplot
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/avalanchesiqi/youtube-insight).
 
 ## Data
-The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
+The data is hosted on [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/L3UWZT) and [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
   
   ```
   data
@@ -60,7 +60,7 @@ The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZw
 
 ### File Description
 All files are compressed in `tar.bz2`.
-Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
+Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`.
 Tweeted videos and Quality videos datasets are in `json` format.
 `freebase_mid_type_name.csv` contains 43,801,283 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 

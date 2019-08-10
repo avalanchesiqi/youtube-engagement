@@ -7,18 +7,27 @@ Usage: python plot_fig6_cdf.py
 Time: ~3M
 """
 
-import os, sys, time, datetime
+import os, sys, platform
 import numpy as np
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 from utils.helper import read_as_int_array, read_as_float_array
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
+
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot cumulative relative engagement temporal change...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     list1 = []  # day7 vs day14
     list2 = []  # day7 vs day30
@@ -81,9 +90,9 @@ if __name__ == '__main__':
         ax1.legend(loc='upper left', frameon=False, handlelength=1, fontsize=20)
         ax1.set_title('(a)', fontsize=24)
 
-        # get running time
-        print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+        timer.stop()
 
         plt.tight_layout()
         plt.savefig('../images/fig6_cum_engagement_change.pdf', bbox_inches='tight')
-        plt.show()
+        if not platform.system() == 'Linux':
+            plt.show()

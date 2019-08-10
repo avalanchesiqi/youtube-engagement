@@ -2,14 +2,13 @@
 
 These datasets are first used in the following paper.
 If you use these datasets, or refer to its results, please cite:
-> [Siqi Wu](https://avalanchesiqi.github.io/), [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[ [paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf) | [code](https://github.com/avalanchesiqi/youtube-engagement) | [data](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing) \]
+> [Siqi Wu](https://avalanchesiqi.github.io/)), [Marian-Andrei Rizoiu](http://www.rizoiu.eu/), and [Lexing Xie](http://users.cecs.anu.edu.au/~xlx/). Beyond Views: Measuring and Predicting Engagement in Online Videos. *AAAI International Conference on Weblogs and Social Media (ICWSM)*, 2018. \[[paper](https://avalanchesiqi.github.io/files/icwsm2018engagement.pdf)\]
 
 ## Data collection tool
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
-The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
-
+The data is hosted on [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/L3UWZT) and [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
   
   ```
   data
@@ -43,7 +42,7 @@ The data is hosted on [Google Drive](https://drive.google.com/drive/folders/1wZw
 
 ### File Description
 All files are compressed in `tar.bz2`.
-Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`
+Uncompress by command `find -name "*.tar.bz2" -exec tar -jxvf {} \;`.
 Tweeted videos and Quality videos datasets are in `json` format.
 `freebase_mid_type_name.csv` contains 43,801,283 relational mapping of Freebase topic mid, topic type and human-readable topic name.
 

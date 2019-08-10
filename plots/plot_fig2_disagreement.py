@@ -7,9 +7,17 @@ Usage: python plot_fig2_disagreement.py
 Time: ~2M
 """
 
-import os, operator, time, datetime
+import os, sys, operator, platform
 from scipy import stats
+
+import matplotlib as mpl
+if platform.system() == 'Linux':
+    mpl.use('Agg')  # no UI backend
+
 import matplotlib.pyplot as plt
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
+from utils.helper import Timer
 
 
 def plot_spearman(ax, view_rank_dict, watch_rank_dict, color, linestyle, label):
@@ -58,7 +66,8 @@ def plot_scatter(ax, view_rank_dict, watch_rank_dict, color='k', cap=100):
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
     print('>>> Start to plot Spearman correlation between top views and top watched videos...')
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     num_display_top = 100
     total_view_rank_dict = {}
@@ -124,10 +133,10 @@ if __name__ == '__main__':
     ax3.set_ylabel('total watch rank', fontsize=14)
     ax3.set_title(r'(c) News at $n$=100', fontsize=16)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     plt.tight_layout()
     plt.subplots_adjust()
     plt.savefig('../images/fig2_disagreement.pdf', bbox_inches='tight')
-    plt.show()
+    if not platform.system() == 'Linux':
+        plt.show()

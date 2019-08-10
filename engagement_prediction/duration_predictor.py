@@ -12,18 +12,19 @@ Usage: python duration_predictor.py -i ./ -o ./output -f re
 Time: ~1M
 """
 
-import os, sys, time, datetime, pickle, argparse
+import os, sys, pickle, argparse
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
-from utils.helper import write_dict_to_pickle
+from utils.helper import Timer, write_dict_to_pickle
 from utils.converter import to_watch_percentage
 
 
 if __name__ == '__main__':
     # == == == == == == == == Part 1: Set up experiment parameters == == == == == == == == #
-    start_time = time.time()
+    timer = Timer()
+    timer.start()
 
     test_vids = []
     test_duration = []
@@ -92,8 +93,7 @@ if __name__ == '__main__':
     print('>>> R2 on test set: {0:.4f}'.format(r2_score(true_engagement, guess_engagement)))
     print('=' * 79)
 
-    # get running time
-    print('\n>>> Total running time: {0}'.format(str(datetime.timedelta(seconds=time.time() - start_time)))[:-3])
+    timer.stop()
 
     # write to pickle file
     to_write = True
