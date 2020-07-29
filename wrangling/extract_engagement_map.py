@@ -93,6 +93,6 @@ if __name__ == '__main__':
     engagement_map = {'duration': duration_splits}
     for i in range(len(duration_splits) + 1):
         engagement_map[i] = [np.percentile(wp_bin_matrix[i], j / 10) for j in range(1000)]
-    pickle.dump(engagement_map, open('../data/engagement_map.p', 'wb'))
+    pickle.dump(engagement_map, open(output_path, 'wb'))
 
     timer.stop()

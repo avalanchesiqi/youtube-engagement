@@ -121,7 +121,8 @@ if __name__ == '__main__':
     # == == == == == == == == Part 2: Construct dataset == == == == == == == == #
     for subdir, _, files in os.walk(input_dir):
         for f in files:
-            print('>>> Start to reformat file {0}...'.format(os.path.join(subdir, f)))
-            extract_info(os.path.join(subdir, f), os.path.join(output_dir, f[:-4]+'txt'), truncated=age)
+            if f.endswith('json'):
+                print('>>> Start to reformat file {0}...'.format(os.path.join(subdir, f)))
+                extract_info(os.path.join(subdir, f), os.path.join(output_dir, f[:-4]+'txt'), truncated=age)
 
     timer.stop()

@@ -125,6 +125,22 @@ Each line is a YouTube video in `json` format, an example is shown below.
 }
 ```
 
+### querying EngagementMap
+We provide a function to query the EngagementMap extracted from 5M YouTube videos.
+This function takes video length (positive integer) and watch percentage [0-1], and will output the relative engagement score [0-1].
+```python
+import random
+from engagement_map.engagement_map import EngagementMap
+
+engagement_path = './data/engagement_map.p'
+engagement_map = EngagementMap(engagement_path)
+
+for _ in range(10):
+    length = 10 ** (5 * random.random())
+    wp30 = random.random()
+    print('relative engagement for video with length {0:.0f} seconds and {1:.2f} watch percentage is {2:.2f}'.format(length, wp30, engagement_map.query_engagement_map(length, wp30)))
+```
+
 ### detectLang field
 `detectLang` is the result from [langdetect 1.0.7](https://pypi.python.org/pypi/langdetect?), 'NA' if no result returns.
 Note in the latest version of [youtube-insight](https://github.com/avalanchesiqi/youtube-insight), we changed to [googletrans 2.3.0](https://pypi.org/project/googletrans/).
