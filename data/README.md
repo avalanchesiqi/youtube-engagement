@@ -8,7 +8,7 @@ If you use these datasets, or refer to its results, please cite:
 These datasets are collected via an integrated YouTube data crawler - [YouTube insight data crawler](https://github.com/computationalmedia/youtube-insight).
 
 ## Data
-The data is hosted on [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/L3UWZT) and [Google Drive](https://drive.google.com/drive/folders/1wZwDIR18IHPPTiH1C0dyBbGPR-3MktI7?usp=sharing).
+The data is hosted on [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/L3UWZT).
   
   ```
   data
